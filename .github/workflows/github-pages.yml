@@ -16,8 +16,7 @@ jobs:
           echo ${{ env.slide }}
           cd ./${{ env.slide }}
           npm install
-          npm run build --base ./ 
-          echo /talks/${{ env.slide }}/
+          npm run build -- --base ./ 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
