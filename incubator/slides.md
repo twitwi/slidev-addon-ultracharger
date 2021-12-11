@@ -77,6 +77,21 @@ Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the s
 - defined in `./setup/shortcuts.vue`
 
 ---
+src: ./separator.md
+---
+
+---
+
+# FEATURE: b key to blackout
+
+Use <kbd>b</kbd> to blackout remote clients' views (from presenter).
+
+- defined as a component in `./components/Blackout.vue`
+- should be instantiated in `./global-top.vue`
+- registration of the keyboard shortcut in `./setup/shortcuts.ts`
+- NB: to test, open a client and a presenter view and press <kbd>b</kbd> in the presenter view.
+
+---
 src: separator.md
 ---
 

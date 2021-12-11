@@ -10,4 +10,6 @@
       − 
       {{ $slidev.nav.currentPage }} / {{ $slidev.nav.total+1 }}
   </footer>
+
+  <Blackout/>
 </template>
