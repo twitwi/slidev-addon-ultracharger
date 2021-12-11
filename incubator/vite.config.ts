@@ -8,9 +8,7 @@ export default defineConfig({
     markdown: {
       /* markdown-it options */
       markdownItSetup(md) {
-        //md.use(/* ... */)
         md.renderer.rules.step_marker = () => '<span class="step"></span>'
-        console.log(md.renderer.rules)
         md.inline.ruler.after('text', 'step_symbol', function replace(state) {
             let ch, code, match, pos = state.pos, max = state.posMax;
 
