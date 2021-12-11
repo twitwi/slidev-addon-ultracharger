@@ -14,13 +14,15 @@ jobs:
       - name: Install and Build 🔧
         run: |
           echo ${{ env.slide }}
+          cd ./${{ env.slide }}
           npm install
-          npm run build -- ./slides/${{ env.slide }}.md --base /talks/${{ env.slide }}/
+          npm run build --base ./ 
+          echo /talks/${{ env.slide }}/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+          folder: ${{ env.slide }}/dist # The folder the action should deploy.
           target-folder: ${{ env.slide }}
           clean: false
 
@@ -28,7 +30,7 @@ jobs:
         uses: actions/checkout@v2.3.1
       - name: Update README
         run: |
-          echo "|${{ env.slide }}|-|-|[link](https://guisso.dev/talks/${{ env.slide }}/)|" >> README.md
+          echo "|${{ env.slide }}|-|-|[link](https://twitwi.github.io/slidev-incubation/${{ env.slide }}/)|" >> README.md
       - name: Commit README changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
