@@ -11,6 +11,7 @@ class: 'text-center'
 highlighter: shiki
 # show line numbers in code blocks
 lineNumbers: false
+routerMode: hash
 # some information about the slides, markdown enabled
 info: |
   ## Slidev Personnal Incubator

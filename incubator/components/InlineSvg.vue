@@ -16,9 +16,14 @@ export default {
     );
     const rawSvg = ref("");
     (async function () {
+      let req = await fetch(props.src)
+      rawSvg.value = await req.text()
+      /*
+      TODO: this might be useful if we manage to make it inlined for single-file release
       rawSvg.value = (
-        await import(/* @vite-ignore */ props.src + "?raw")
+        await import(props.src + "?raw")
       ).default;
+      */
     })();
     return () => {
       nextTick(() => {
