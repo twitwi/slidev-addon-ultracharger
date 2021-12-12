@@ -16,7 +16,8 @@ export default {
     );
     const rawSvg = ref("");
     (async function () {
-      let req = await fetch(props.src)
+      //console.log(import.meta.env.BASE_URL, props.src.replace(/^\//, ''))
+      let req = await fetch(import.meta.env.BASE_URL + props.src.replace(/^\//, ''))
       rawSvg.value = await req.text()
       /*
       TODO: this might be useful if we manage to make it inlined for single-file release

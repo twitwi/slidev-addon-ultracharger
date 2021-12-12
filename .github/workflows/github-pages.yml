@@ -11,11 +11,15 @@ jobs:
       - name: Set env
         run: |
           echo "slide=$(echo '${{ github.event.head_commit.message }}' | cut -d' ' -f 2)" >> $GITHUB_ENV
-      - name: Install and Build 🔧
+      - name: Install
         run: |
           echo ${{ env.slide }}
           cd ./${{ env.slide }}
           npm install
+      - name: Build 🔧
+        run: |
+          echo ${{ env.slide }}
+          cd ./${{ env.slide }}
           npm run build -- --base ./ 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
@@ -25,14 +29,14 @@ jobs:
           target-folder: ${{ env.slide }}
           clean: false
 
-      - name: Checkout for README 🛎️
-        uses: actions/checkout@v2.3.1
-      - name: Update README
-        run: |
-          echo "|${{ env.slide }}|-|-|[link](https://twitwi.github.io/slidev-incubation/${{ env.slide }}/)|" >> README.md
-      - name: Commit README changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "readme: add ${{ env.slide }} link"
-          file_pattern: README.md
+      # - name: Checkout for README 🛎️
+      #   uses: actions/checkout@v2.3.1
+      # - name: Update README
+      #   run: |
+      #     echo "|${{ env.slide }}|-|-|[link](https://twitwi.github.io/slidev-incubation/${{ env.slide }}/)|" >> README.md
+      # - name: Commit README changes
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "readme: add ${{ env.slide }} link"
+      #     file_pattern: README.md
           

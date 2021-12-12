@@ -473,6 +473,7 @@ src: separator.md
 <style>
   :deep(svg) { border: 1px solid red; }
   .half { width: 50%; display: inline-block; }
+  em { font-size: 30px; background: white; padding: 0 0.5em; margin-left: 1em; display: inline-block; transform: translate(0, -1.1em)}
 </style>
 
 ---
