@@ -7,5 +7,4 @@
 
 - with built and hosted version
   - @along on non-svg are unexpectedly stacked together
-  - __slidev__ not found in shortcuts
   - outline reuse and highlight not working

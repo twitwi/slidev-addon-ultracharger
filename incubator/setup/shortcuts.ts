@@ -1,26 +1,23 @@
 import { defineShortcutsSetup, NavOperations } from '@slidev/types'
 import { serverState } from "@slidev/client/env";
-import { isPresenter } from '@slidev/client/logic/nav'
-
+import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav'
 export default defineShortcutsSetup((nav: NavOperations) => {
   return [
     /* FEATURE browse slides */
     {
       key: 'z',
       fn: async () => {
-        const n = __slidev__.nav;
-        if (n.clicks === n.clicksTotal) {
-          await n.nextSlide();
+        if (clicks.value === clicksTotal.value) {
+          await nextSlide();
         }
-        await n.go(n.currentPage, n.clicksTotal);
+        await go(currentPage.value, clicksTotal.value);
       },
       autoRepeat: true,
     },
     {
       key: 'a',
       fn: async () => {
-        const n = __slidev__.nav;
-        await n.prevSlide();
+        await prevSlide();
       },
       autoRepeat: true,
     },
