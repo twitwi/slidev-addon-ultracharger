@@ -294,11 +294,30 @@ const parsePart = (context: any) => (p:string) => {
   }
   if (hasPrefix('@steps ')) {
     if (context.forbidComposite) {
-      alert('@steps is not allowed here (e.g. in ^ separated steps)')
+      alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
     // TODO should find the total number... but how... so no for now
-    return parseRangeString(10, p).map(i => ['step', i])
+    return parseRangeString(42, p).map(i => ['step', i])
+  }
+  if (hasPrefix('@maths ')) {
+    // TODO should find the total number... but how... so no for now
+    const r = parseRangeString(42, p)
+    if (r.length > 1 && context.forbidComposite) {
+      alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
+      return []
+    }
+    return r.map(i => ['show', '.mtable>* .vlist>span:not(.vlist .vlist span):nth-of-type('+i+')'])
+  }
+  if (hasPrefix('@mathsc ')) {
+    // TODO should find the total number... but how... so no for now
+    const rangeSpec = splitFirst(/ +/)
+    const r = parseRangeString(42, rangeSpec)
+    if (r.length > 1 && context.forbidComposite) {
+      alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
+      return []
+    }
+    return r.map(i => ['show', p+' .mtable>* .vlist>span:not(.vlist .vlist span):nth-of-type('+i+')'])
   }
   if (p.startsWith('@')) {
     alert('Unhandled @ animation: '+p)

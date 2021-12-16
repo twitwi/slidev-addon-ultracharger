@@ -629,12 +629,12 @@ NB: any big number is ok to show everything
 </Anim>
 
 <style>
-  span.anim-now::before { content: ''; outline: 1px solid grey;}
+  span.anim-now::before { content: ''; outline: 2px solid blue;}
 </style>
 
 ---
 
-## Marker-based steps, control what is initially shown
+# Marker-based steps, control what is initially shown
 
 `spec="@step 1 | @step 2 | -strong | @step 42"`
 
@@ -654,7 +654,7 @@ NB: use a mark with class `step0` to decide up to where it is inially shown
 </Anim>
 
 <style>
-  span.anim-now::before { content: ''; outline: 1px solid green;}
+  span.anim-now::before { content: ''; outline: 2px solid green;}
 </style>
 
 ---
@@ -680,8 +680,84 @@ NB: can use `&|` to insert a span with class `step` (implemented in `./vite.conf
 </Anim>
 
 <style>
-  span.anim-now::before { content: ''; outline: 1px solid orange;}
+  span.anim-now::before { content: ''; outline: 2px solid orange;}
 </style>
+
+---
+src: separator.md
+---
+
+---
+
+# `<Anim>` katex "align" (math equation block)
+
+$$
+\gdef\lnp{\ln p}
+\gdef\mcol{\blue}
+\gdef\m{\mcol{μ}}
+\gdef\pcol{\green}
+\gdef\p{\pcol{π}}
+\gdef\zcol{\red}
+\gdef\z{\zcol{z}}
+\gdef\Z{\zcol{Z}}
+\gdef\s{σ}
+\gdef\ndist#1#2{\mathcal{N}(#1,#2)}
+\gdef\ndens#1#2#3{\mathcal{N}(#1,#2)(#3)}
+\gdef\E{\mathbb{E}}
+\gdef\comm#1{\text{\textcolor{gray}{#1} } }
+$$
+
+<Anim spec="@maths 1-9">
+
+$$
+\begin{align*}
+\ln q_π(\p)
+& = \E_{\neg π}[\lnp(X,\Z,\p,\m)] + K_1 \\
+& \;\;\;\;\; \comm{(remove what is constant (and thus remains after expectation) with respect to $\p$)} \\
+& = \E_{\neg π}\left[\ln prior(\p) + \sum_i \ln \p_{\z_i}\right] + K_2 \\
+& \;\;\;\;\; \comm{(simplifying the expectations)} \\
+& = \ln prior(\p) + \sum_i \E_{\z_i}[\ln \p_{\z_i}] + K_2 \\
+& = \ln prior(\p) + \sum_i \sum_k q_z^i(k) \ln \p_k + K_2 \\
+& \;\;\;\;\; \comm{($Dir(α)$ prior + swap sums)} \\
+& = \sum_k (α_k -1 ) \ln \p_k + \sum_k \sum_i q_z^i(k) \ln \p_k + K_3 
+\;\; \comm{with $q_z^i(k)$ the responsibility, i.e. $R_{ik}$} \\
+& = \sum_k ((α_k+\sum_i R_{ik}) -1 ) \ln \p_k + K_3
+\;\; \comm{(once reorganized)}
+\end{align*}
+$$
+
+</Anim>
+
+---
+
+# `<Anim>` katex, specifying a context
+
+<Anim spec="@mathsc 1-4 .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)" class="my">
+
+$$
+\begin{align*}
+\ln q_π(\p)
+& = \E_{\neg π}[\lnp(X,\Z,\p,\m)] + K_1 \\
+& \;\;\;\;\; \comm{(remove what is constant (and thus remains after expectation) with respect to $\p$)} \\
+& = \E_{\neg π}\left[\ln prior(\p) + \sum_i \ln \p_{\z_i}\right] + K_2 \\
+& = \ln prior(\p) + \sum_i \E_{\z_i}[\ln \p_{\z_i}] + K_2
+\end{align*}
+$$
+
+And we can rewrite the expectation
+
+$$
+\begin{align*}
+\ln q_π(\p)
+& = \ln prior(\p) + \sum_i \sum_k q_z^i(k) \ln \p_k + K_2 \\
+& = \sum_k (α_k -1 ) \ln \p_k + \sum_k \sum_i q_z^i(k) \ln \p_k + K_3 
+\;\; \comm{with $q_z^i(k)$ the responsibility, i.e. $R_{ik}$} \\
+& = \sum_k ((α_k+\sum_i R_{ik}) -1 ) \ln \p_k + K_3
+\;\; \comm{(once reorganized)}
+\end{align*}
+$$
+
+</Anim>
 
 ---
 src: separator.md
