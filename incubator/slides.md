@@ -691,6 +691,8 @@ src: separator.md
 
 # `<Anim>` katex "align" (math equation block)
 
+`spec="@maths 1-9"`
+
 $$
 \gdef\lnp{\ln p}
 \gdef\mcol{\blue}
@@ -731,6 +733,8 @@ $$
 ---
 
 # `<Anim>` katex, specifying a context
+
+`spec="@mathsc 1-4 .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)"`
 
 <Anim spec="@mathsc 1-4 .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)" class="my">
 
