@@ -764,6 +764,36 @@ src: separator.md
 ---
 
 ---
+layout: anim
+spec: '@step 1 | @step 2 | -strong | @step 42'
+---
+
+# Anim Layout (shortcut)
+
+Defined in `layouts/anim.vue`
+
+It wraps the content into an anim, and expects a `spec` header as in
+
+```yaml
+layout: anim
+spec: '@step 1 | @step 2 | -strong | @step 42'
+```
+
+- first level
+- hum
+- ok now we'll <span class="step0"/> **nest**
+  - nested 1
+  - nested 2 <span class="step"/> <span>and 2.5</span>
+  - and 3
+- voila! <span class="step"/>
+- tada!
+
+
+---
+src: separator.md
+---
+
+---
 
 ... nope
 
