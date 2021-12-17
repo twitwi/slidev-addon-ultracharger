@@ -28,6 +28,7 @@ author: Rémi Emonet
 
 # <span v-html="$slidev.configs.title?.replaceAll(' ', '<br/>')"></span>
 
+<C>Introduction</C>
 <br/><br/><br/><br/><br/><br/>
 
 Each feature is illustrated in its own part.
@@ -38,13 +39,30 @@ Some guidance about usage/limitations/evolutions/improvements/TODO/etc is given.
   :deep(footer) { padding-bottom: 3em !important; }
 </style>
 
+
 ---
 src: ./separator.md
 ---
 
 ---
 
-# FEATURE: title page / closing page
+# FEATURE: a `TOC` (<C dotStyle="filter: blur(1px)">Table Of Content</C>)
+
+defined in `components/TOC.vue` and `component/C.vue`, \
+used just below 
+
+<TOC class="text-sm" style="columns: 400px 2;"/>
+
+and in its compact form here: <TOC mode="dots" class="text-sm inline-block"/> \
+(also in `global-top.vue` which makes it present on every slide)
+
+---
+src: ./separator.md
+---
+
+---
+
+# <C eid="title">FEATURE: title page / closing page</C>
 
 Displays metadata
 (see next slide)
@@ -71,7 +89,7 @@ src: ./separator.md
 
 ---
 
-# FEATURE: a/z keys for slide browsing
+# <C>FEATURE: a/z keys for slide browsing</C>
 
 Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the slides as they look after all clicks (animations) contrary to up/down arrows.
 
@@ -83,7 +101,7 @@ src: ./separator.md
 
 ---
 
-# FEATURE: b key to blackout
+# <C>FEATURE: b key to blackout</C>
 
 Use <kbd>b</kbd> to blackout remote clients' views (from presenter).
 
@@ -98,7 +116,7 @@ src: separator.md
 
 ---
 
-# FEATURE: Katex remember definitions
+# <C>FEATURE: Katex remember definitions</C>
 
 Can use gdef in katex/latex code and reuse them in other blocks or even slides.
 
@@ -139,7 +157,7 @@ src: ./separator.md
 
 ---
 
-# FEATURE: footer
+# <C>FEATURE: footer</C>
 
 Also displays metadata
 (see any footer)
@@ -153,7 +171,7 @@ src: separator.md
 
 ---
 
-# FEATURE: outline
+# <C>FEATURE: outline</C>
 
 It allows to define and then copy a fragment of slide, and also to highlight some of it's parts.
 
@@ -262,7 +280,7 @@ src: ./separator.md
 
 ---
 
-# FEATURE: click animations (fine grained clicks)
+# <C>FEATURE: click animations (fine grained clicks)</C>
 
 ---
 
@@ -375,7 +393,7 @@ src: separator.md
 
 ---
 
-# FEATURE: svg inlining
+# <C>FEATURE: svg inlining</C>
 
 ---
 
@@ -435,7 +453,7 @@ src: separator.md
 
 ---
 
-# FEATURE: svg animations (and related)
+# <C>FEATURE: svg animations (and related)</C>
 
 (using `<Anim>` and `<InlineSvg>`)
 
@@ -561,7 +579,7 @@ src: separator.md
 
 ---
 
-# FEATURE: playing with the (SVG) viewBox
+# <C>FEATURE: playing with the (SVG) viewBox</C>
 
 (still using `<Anim>`)
 
@@ -597,7 +615,7 @@ src: separator.md
 
 ---
 
-# FEATURE: marker-based steps/clicks
+# <C>FEATURE: marker-based steps/clicks</C>
 
 (still using `<Anim>`)
 
@@ -689,7 +707,7 @@ src: separator.md
 
 ---
 
-# `<Anim>` katex "align" (math equation block)
+# <C>FEATURE: `<Anim>` katex "align" (equation block)</C>
 
 `spec="@maths 1-9"`
 
@@ -772,7 +790,7 @@ layout: anim
 spec: '@step 1 | @step 2 | -strong | @step 42'
 ---
 
-# Anim Layout (shortcut)
+# <C>FEATURE: Anim Layout (shortcut)</C>
 
 Defined in `layouts/anim.vue`
 

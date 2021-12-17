@@ -11,5 +11,7 @@
       {{ $slidev.nav.currentPage }} / {{ $slidev.nav.total+1 }}
   </footer>
 
+  <TOC mode="dots" class="absolute bottom-0 right-5"/>
+
   <Blackout/>
 </template>
