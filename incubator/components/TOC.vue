@@ -64,6 +64,7 @@ const click = t => {
 </template>
 <style>
     a { cursor: pointer; }
-    .dot { color: #005; text-shadow: white 0 0 2px; }
-    .future { color: #BBE; opacity: .5; }
+    .dark .dot { filter: invert();}
+    .dot { font-size: 0.65em; color: #444; text-shadow: white 0 0 2px; margin: 0 .05em; }
+    .future { color: #bbb; opacity: .5; }
 </style>
