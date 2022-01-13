@@ -96,6 +96,48 @@ src: ./separator.md
 Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the slides as they look after all clicks (animations) contrary to up/down arrows.
 
 - defined in `./setup/shortcuts.vue`
+- NB: the two next slides are just for you to try these <kbd>a</kbd> and <kbd>z</kbd> and how they differ from the 4 arrow keys
+
+---
+
+# Trying a/z: Slide 1
+
+<v-clicks>
+
+- Step 1.1
+- Step 1.2
+- Step 1.3
+
+</v-clicks>
+
+- Reminder:
+  - <kbd>&rarr;</kbd> step forward
+  - <kbd>&larr;</kbd> step backward
+  - <kbd>z</kbd> jump to next slide's end
+  - <kbd>a</kbd> jump to previous slide's end
+  - <kbd>&darr;</kbd> jump to next slide's beginning
+  - <kbd>&uarr;</kbd> jump to previous slide's beginning
+
+---
+
+# Trying a/z: Slide 2
+
+<v-clicks>
+
+- Step 2.1
+- Step 2.2
+- Step 2.3
+
+</v-clicks>
+
+- Reminder:
+  - <kbd>&rarr;</kbd> step forward
+  - <kbd>&larr;</kbd> step backward
+  - <kbd>z</kbd> jump to next slide's end
+  - <kbd>a</kbd> jump to previous slide's end
+  - <kbd>&darr;</kbd> jump to next slide's beginning
+  - <kbd>&uarr;</kbd> jump to previous slide's beginning
+
 
 ---
 src: ./separator.md
