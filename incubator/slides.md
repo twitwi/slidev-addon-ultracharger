@@ -19,6 +19,7 @@ info: |
 
   Experimenting with new features for [Sli.dev](https://sli.dev)
 # persist drawings in exports and build
+ghPrefix: https://github.com/twitwi/slidev-incubation/blob/main/incubator/
 drawings:
   persist: false
 title: "Incubating some slidev plugins/components/etc."
@@ -50,13 +51,13 @@ src: ./separator.md
 
 # FEATURE: a `TOC` (<C dotStyle="filter: blur(1px)">Table Of Content</C>)
 
-defined in `components/TOC.vue` and `component/C.vue`, \
+defined in <gh href="components/TOC.vue"/> and <gh href="component/C.vue"/>, \
 used just below 
 
 <TOC class="text-sm" style="columns: 400px 2;"/>
 
 and in its compact form here: <TOC mode="dots" class="text-sm inline-block"/> \
-(also in `global-top.vue` which makes it present on every slide)
+(also in <gh href="global-top.vue"/> which makes it present on every slide)
 
 ---
 src: ./separator.md
@@ -95,7 +96,7 @@ src: ./separator.md
 
 Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the slides as they look after all clicks (animations) contrary to up/down arrows.
 
-- defined in `./setup/shortcuts.vue`
+- defined in <gh href="./setup/shortcuts.vue"/>
 - NB: the two next slides are just for you to try these <kbd>a</kbd> and <kbd>z</kbd> and how they differ from the 4 arrow keys
 
 ---
@@ -149,9 +150,9 @@ src: ./separator.md
 
 Use <kbd>b</kbd> to blackout remote clients' views (from presenter).
 
-- defined as a component in `./components/Blackout.vue`
-- should be instantiated in `./global-top.vue`
-- registration of the keyboard shortcut in `./setup/shortcuts.ts`
+- defined as a component in <gh href="./components/Blackout.vue"/>
+- should be instantiated in <gh href="./global-top.vue"/>
+- registration of the keyboard shortcut in <gh href="./setup/shortcuts.ts"/>
 - NB: to test, open a client and a presenter view and press <kbd>b</kbd> in the presenter view.
 - NB: the presenter view is **not available** if you view from a hosted (e.g. github pages) version
 
@@ -165,7 +166,7 @@ src: separator.md
 
 Can use gdef in katex/latex code and reuse them in other blocks or even slides.
 
-- ~~defined in `./setup/katex.vue`~~ might work by default (but it is still cool)
+- ~~defined in <gh href="./setup/katex.vue"/>~~ might work by default (but it is still cool)
 
 ---
 
@@ -207,7 +208,7 @@ src: ./separator.md
 Also displays metadata
 (see any footer)
 
-- defined in `./global-top.vue` (TODO: a component for filenames that link to the source on github)
+- defined in <gh href="./global-top.vue" />
 - can change the total (e.g. if you know you have 10 extra slides used -9 instead of +1)
 
 ---
@@ -222,7 +223,7 @@ It allows to define and then copy a fragment of slide, and also to highlight som
 
 It is somewhat redundant with existing features such as the `src` attribute or `.md` components, but it remains slightly different.
 
-- defined in `./components/Outline.vue`
+- defined in <gh href="./components/Outline.vue"/>
 
 ---
 
@@ -272,7 +273,7 @@ NB: the highlight is done with the css class highlight, that can be overriden, h
 
 <Outline :current="3" class="highlight-is-green" />
 
-NB: or globally (css overriding), see `./style.css`
+NB: or globally (css overriding), see <gh href="./style.css"/>
 
 ---
 
@@ -381,8 +382,8 @@ Read more about [Why Slidev?](https://sli.dev/guide/why)
 
 NB:
 
-- defined in `./components/Anim.vue`
-- some style in `./style.css`
+- defined in <gh href="./components/Anim.vue"/>
+- some style in <gh href="./style.css" line="14"/>
 - requires `pnpm install parse-duration`
 - more features in the next slides (and in section animating SVG)
 
@@ -664,7 +665,7 @@ src: separator.md
 
 (still using `<Anim>`)
 
-- defined in `./components/Anim.vue` with some CSS in `./style.css`
+- defined in <gh href="./components/Anim.vue"/> with some CSS in <gh href="./style.css"/>
 
 ---
 
@@ -727,7 +728,7 @@ NB: use a mark with class `step0` to decide up to where it is inially shown
 `spec="@steps 1-4 | -strong | @steps 5-8"`
 
 NB: can use `@steps` and a range to simplify writting several `@step` \
-NB: can use `&|` to insert a span with class `step` (implemented in `./vite.config.ts`)
+NB: can use `&|` to insert a span with class `step` (implemented in <gh href="./vite.config.ts"/>)
 
 <Anim spec="@steps 1-4 | -strong | @steps 5-8">
 
@@ -837,7 +838,7 @@ spec: '@step 1 | @step 2 | -strong | @step 42'
 
 # <C>FEATURE: Anim Layout (shortcut)</C>
 
-Defined in `layouts/anim.vue`
+Defined in <gh href="layouts/anim.vue"/>
 
 It wraps the content into an anim, and expects a `spec` header as in
 
