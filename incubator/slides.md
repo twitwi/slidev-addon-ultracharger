@@ -111,6 +111,7 @@ Use <kbd>b</kbd> to blackout remote clients' views (from presenter).
 - should be instantiated in `./global-top.vue`
 - registration of the keyboard shortcut in `./setup/shortcuts.ts`
 - NB: to test, open a client and a presenter view and press <kbd>b</kbd> in the presenter view.
+- NB: the presenter view is **not available** if you view from a hosted (e.g. github pages) version
 
 ---
 src: separator.md
