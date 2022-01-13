@@ -96,7 +96,7 @@ src: ./separator.md
 
 Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the slides as they look after all clicks (animations) contrary to up/down arrows.
 
-- defined in <gh href="./setup/shortcuts.vue"/>
+- defined in <gh href="./setup/shortcuts.ts"/>
 - NB: the two next slides are just for you to try these <kbd>a</kbd> and <kbd>z</kbd> and how they differ from the default 4 arrow keys
 
 ---
