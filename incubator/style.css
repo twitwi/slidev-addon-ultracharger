@@ -37,3 +37,7 @@
 	top: -1em;
 }
 
+
+/* CUSTOM */
+.katex { color: #006; }
+.dark .katex { color: #DEF; }
