@@ -273,7 +273,7 @@ Here we reuse it directly, highlighting "<Outline :use="3" name="checklist" clas
 TODO
 
 - might handle nested outlines e.g. current="1.3"
-- might rethink all the thing with the aim of generating the TOC automatically, with links etc, and also generating microTOC (like beamer with the dots)
+- <strike>might rethink all the thing with the aim of generating the TOC automatically, with links etc, and also generating microTOC (like beamer with the dots)</strike> It has been implement, see the TOC feature (which is also shown as dots in the slide footer)
 
 
 ---
