@@ -14,8 +14,10 @@ lineNumbers: false
 routerMode: hash
 # some information about the slides, markdown enabled
 info: |
-  ## Slidev Personnal Incubator
-  Uses [Sli.dev](https://sli.dev)
+  ## Slidev Personal Incubator
+  NB: [Source code available](https://github.com/twitwi/slidev-incubation)
+
+  Experimenting with new features for [Sli.dev](https://sli.dev)
 # persist drawings in exports and build
 drawings:
   persist: false
