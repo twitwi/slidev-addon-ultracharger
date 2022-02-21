@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="{width: slideHeight+'px'}"
+    :style="slideHeightAsVariable"
     :class="{
       blackout: true,
       'hidden-blackout': !(serverState.blackout && !isPresenter),
@@ -11,6 +11,9 @@
 <script lang="ts" setup>
 import { serverState, slideHeight } from '@slidev/client/env'
 import { isPresenter } from '@slidev/client/logic/nav'
+// avoid type checking...
+let slideHeightAsVariable = {}
+slideHeightAsVariable['--slide-height'] = slideHeight + 'px'
 </script>
 <style scoped>
 .blackout {
@@ -21,9 +24,13 @@ import { isPresenter } from '@slidev/client/logic/nav'
   right: 0;
   top: 0;
   bottom: 0;
+  width: 100vw;
   --blackout-duration: 150ms;
   --unblackout-duration: 450ms;
   transition: opacity var(--blackout-duration) ease, visibility 0ms;
+}
+.dark .blackout {
+  filter: invert();
 }
 .hidden-blackout {
   opacity: 0;
@@ -40,7 +47,7 @@ import { isPresenter } from '@slidev/client/logic/nav'
   height: 1.6em;
   left: 1.6em;
   text-align: center;
-  width: 100px; /* replaced by vue above */
+  width: var(--slide-height);/*100px; /* replaced by vue above */
   transform-origin: 0 100%;
   transform: rotate(-90deg);
   transition: all 0s;
