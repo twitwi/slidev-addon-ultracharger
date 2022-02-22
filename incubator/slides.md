@@ -209,7 +209,7 @@ Also displays metadata
 (see any footer)
 
 - defined in <gh href="./global-top.vue" />
-- can change the total (e.g. if you know you have 10 extra slides used -9 instead of +1)
+- can change the total (e.g. if you know you have 10 extra slides, use -9 instead of +1)
 
 ---
 src: separator.md
