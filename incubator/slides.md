@@ -262,8 +262,9 @@ NB: the element must be empty (directly with `/>`)
 NB: the highlight is done with the css class highlight, that can be overriden, here locally
 
 <style>
-  :deep(.highlight) { color: blue; filter: blur(2px); }
+  :deep(.highlight) { color: teal; filter: blur(2px); }
 </style>
+
 
 ---
 

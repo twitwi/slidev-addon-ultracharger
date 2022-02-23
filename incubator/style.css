@@ -26,10 +26,10 @@
 
 
 /* FEATURE KATEX, example of latex default color */
-.katex { color: darkblue; }
+.katex { color: #006; }
+.dark .katex { color: #DEF; }
 
-
-
+/* CUSTOM: wikipedia link component */
 .wikipedia-link {
 	font-size: 50%;
 	vertical-align: top;
@@ -37,7 +37,20 @@
 	top: -1em;
 }
 
+/* CUSTOM: better styling inline code */ 
+:not(pre) code {
+	padding: 0.1em .4em;
+	background-color: #EEE;
+	color: darkviolet;
+}
+.dark :not(pre) code {
+	color: violet;
+	background-color: #222;
+}
+:not(pre) code::before, :not(pre) code::after {
+	content: "";
+}
+
 
 /* CUSTOM */
-.katex { color: #006; }
-.dark .katex { color: #DEF; }
+.result { border: 1px solid magenta; padding: .1em; }
