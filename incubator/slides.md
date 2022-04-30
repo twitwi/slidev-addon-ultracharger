@@ -495,6 +495,30 @@ By default, the `InlineSvg` directly ends up as `svg` (with no added properties)
 NB: height and/or width are applied to the `svg` element
 
 ---
+
+# InlineSvg, automated id rewrite (et al.)
+
+Two SVG images, with funky arrows in the second one.
+<img src="/arrows1.svg" width="120"/>
+<img src="/arrows2.svg" width="120"/>
+
+As inlined SVG (same ids, so contamination problem)
+<InlineSvg src="/arrows1.svg" height="120px" :opts="{idRewrite: false}"/>
+<InlineSvg src="/arrows2.svg" height="120px" :opts="{idRewrite: false}"/>
+
+Fixed using idRewrite (set by default)
+<InlineSvg src="/arrows1.svg" height="120px"/>
+<InlineSvg src="/arrows2.svg" height="120px"/>
+
+Options list at <gh href="./components/InlineSvg.vue" line="44"/>
+
+<style>
+  :deep(svg), img { display: inline-block;}
+  :deep(svg) { border: 1px solid red; }
+</style>
+
+
+---
 src: separator.md
 ---
 
