@@ -1,5 +1,5 @@
 import { defineShortcutsSetup, NavOperations } from '@slidev/types'
-import { serverState } from "@slidev/client/env";
+import { sharedState } from "@slidev/client/state/shared";
 import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav'
 export default defineShortcutsSetup((nav: NavOperations) => {
   return [
@@ -27,7 +27,7 @@ export default defineShortcutsSetup((nav: NavOperations) => {
       key: "b",
       fn: () => {
         if (isPresenter.value) {
-          (<any>serverState).blackout = !((<any>serverState).blackout ?? false);
+          (<any>sharedState).blackout = !((<any>sharedState).blackout ?? false);
         }
       },
     },

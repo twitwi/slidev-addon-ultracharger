@@ -3,13 +3,14 @@
     :style="slideHeightAsVariable"
     :class="{
       blackout: true,
-      'hidden-blackout': !(serverState.blackout && !isPresenter),
-      'presenter-blackout': serverState.blackout && isPresenter,
+      'hidden-blackout': !(sharedState.blackout && !isPresenter),
+      'presenter-blackout': sharedState.blackout && isPresenter,
     }"
   >Blacked out</div>
 </template>
 <script lang="ts" setup>
-import { serverState, slideHeight } from '@slidev/client/env'
+import { slideHeight } from '@slidev/client/env'
+import { sharedState } from '@slidev/client/state/shared'
 import { isPresenter } from '@slidev/client/logic/nav'
 // avoid type checking...
 let slideHeightAsVariable = {}
