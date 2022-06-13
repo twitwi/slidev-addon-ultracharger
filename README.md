@@ -1,10 +1,14 @@
+# Some custom addons for slidev
 
-# Some experiments and coming contributions to slidev
+You can use them in your presentation by
+(see https://sli.dev/addons/use.html for a general documentation on using addons)
 
-|incubator|-|-|[preview incubator](https://twitwi.github.io/slidev-incubation/incubator/)|
+- directly depending to the github repository, e.g., `npm install github:twitwi/slidev-addon-incubation`
 
-### current problems
+- adding the addon in your frontmatter 
 
-- with built and hosted version
-  - @along on non-svg are unexpectedly stacked together
-  - outline reuse and highlight not working
+``` yaml
+addons:
+  - slidev-addon-incubation
+```
+

@@ -14,10 +14,12 @@
   ],
   "author": "R. Emonet",
   "license": "ISC",
-  "devDependencies": {
-    "@slidev/cli": "^0.33.0"
-  },
   "engines": {
     "slidev": ">=0.32.1"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^0.33.0",
+    "@slidev/theme-seriph": "^0.21.2",
+    "parse-duration": "^1.0.2"
   }
 }
