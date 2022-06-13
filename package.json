@@ -1,0 +1,23 @@
+{
+  "name": "slidev-addon-incubation",
+  "version": "1.0.0",
+  "description": "Incubator for slidev addons, to be released or not",
+  "scripts": {
+    "dev": "slidev example.md",
+    "build": "slidev build example.md",
+    "export": "slidev export example.md",
+    "screenshot": "slidev export example.md --format png"
+  },
+  "keywords": [
+    "slidev-addon",
+    "slidev"
+  ],
+  "author": "R. Emonet",
+  "license": "ISC",
+  "devDependencies": {
+    "@slidev/cli": "^0.33.0"
+  },
+  "engines": {
+    "slidev": ">=0.32.1"
+  }
+}
