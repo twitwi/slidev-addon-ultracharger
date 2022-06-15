@@ -93,7 +93,7 @@ export default {
           // prefix href with the base svg path
           svg.querySelectorAll('[href]').forEach(e => {
             let href = e.getAttribute('href').trim()
-            if (!href.startsWith('#')) {
+            if (!href.startsWith('#') && ! href.startsWith('data:')) {
               e.setAttribute('href', props.src.replace(/\/[^/]*$/, '/')+href)
             }
           })
