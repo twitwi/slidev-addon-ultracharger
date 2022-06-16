@@ -11,7 +11,8 @@
       {{ $slidev.nav.currentPage }} / {{ $slidev.nav.total+1 }}
   </footer>
 
+  <AutoPlay />
+  <!--TocNG mode="allDots" :max-depth="1" class="absolute bottom-0 right-5"/-->
   <TOC mode="dots" class="absolute bottom-0 right-5"/>
-
   <Blackout/>
 </template>
