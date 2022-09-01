@@ -31,5 +31,13 @@ export default defineShortcutsSetup((nav: NavOperations) => {
         }
       },
     },
+
+    /* FEATURE toggle view comments */
+    {
+      key: "v",
+      fn: () => {
+        (<any>sharedState).showComments = !((<any>sharedState).showComments ?? false);
+      },
+    },
   ]
 })

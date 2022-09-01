@@ -31,10 +31,11 @@ author: Rémi Emonet
 
 # <span v-html="$slidev.configs.title?.replaceAll(' ', '<br/>')"></span>
 
-<C>Introduction</C>
+<CC>Introduction</CC>
+<c type="div">(this is a div comment)</c>
 <br/><br/><br/><br/><br/><br/>
 
-Each feature is illustrated in its own part.
+Each feature is illustrated in its own part.<c>(this is a comment)</c>
 
 Some guidance about usage/limitations/evolutions/improvements/TODO/etc is given.
 
@@ -49,10 +50,10 @@ src: ./separator.md
 
 ---
 
-# FEATURE: a `TOC` (<C dotStyle="filter: blur(1px)">Table Of Content</C>)
+# FEATURE: a `TOC` (<CC dotStyle="filter: blur(1px)">Table Of Content</CC>)
 
-defined in <gh href="components/TOC.vue"/> and <gh href="component/C.vue"/>, \
-used just below 
+defined in <gh href="components/TOC.vue"/> and <gh href="component/CC.vue"/>, \
+used just below (very customizable, see <gh href="components/TocNG.vue"/> for an improved default Toc)
 
 <TOC class="text-sm" style="columns: 400px 2;"/>
 
@@ -65,18 +66,22 @@ src: ./separator.md
 
 ---
 
-# <C eid="title">FEATURE: title page / closing page</C>
+# <CC eid="title">FEATURE: title page / closing page</CC>
 
 Displays metadata
 (see next slide)
 
-Here, directly in the slides.
+Here, directly<c>comm</c> in the slides.
 
 > TODO: could change it to utility functions or *have it as a component*.
 
 ---
 background: https://source.unsplash.com/9Y9I1T4yOvo/medium
-attribution: Photo by <a href="https://unsplash.com/@jackywatt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jacky Watt</a> on <a href="https://unsplash.com/collections/338595/walls?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+attribution: >-
+  Photo by <a
+  href="https://unsplash.com/@jackywatt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jacky
+  Watt</a> on <a
+  href="https://unsplash.com/collections/338595/walls?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 layout: cover
 ---
 
@@ -86,13 +91,14 @@ layout: cover
 
 <p v-html='"date author venue".split(" ").map(k => $slidev.configs[k]).join(" <br/> ")'></p>
 
+
 ---
 src: ./separator.md
 ---
 
 ---
 
-# <C>FEATURE: a/z keys for slide browsing</C>
+# <CC>FEATURE: a/z keys for slide browsing</CC>
 
 Use <kbd>a</kbd> and <kbd>z</kbd> to navigate from slide to slide, showing the slides as they look after all clicks (animations) contrary to up/down arrows.
 
@@ -146,7 +152,7 @@ src: ./separator.md
 
 ---
 
-# <C>FEATURE: b key to blackout</C>
+# <CC>FEATURE: b key to blackout</CC>
 
 Use <kbd>b</kbd> to blackout remote clients' views (from presenter).
 
@@ -162,7 +168,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: Katex remember definitions</C>
+# <CC>FEATURE: Katex remember definitions</CC>
 
 Can use gdef in katex/latex code and reuse them in other blocks or even slides.
 
@@ -203,7 +209,7 @@ src: ./separator.md
 
 ---
 
-# <C>FEATURE: footer</C>
+# <CC>FEATURE: footer</CC>
 
 Also displays metadata
 (see any footer)
@@ -217,7 +223,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: outline</C>
+# <CC>FEATURE: outline</CC>
 
 It allows to define and then copy a fragment of slide, and also to highlight some of it's parts.
 
@@ -318,7 +324,7 @@ Here we reuse it directly, highlighting "<Outline :use="3" name="checklist" clas
 TODO
 
 - might handle nested outlines e.g. current="1.3"
-- <strike>might rethink all the thing with the aim of generating the TOC automatically, with links etc, and also generating microTOC (like beamer with the dots)</strike> It has been implement, see the TOC feature (which is also shown as dots in the slide footer)
+- <del>might rethink all the thing with the aim of generating the TOC automatically, with links etc, and also generating microTOC (like beamer with the dots)</del> It has been implement, see the TOC feature (which is also shown as dots in the slide footer)
 
 
 ---
@@ -327,7 +333,7 @@ src: ./separator.md
 
 ---
 
-# <C>FEATURE: click animations (fine grained clicks)</C>
+# <CC>FEATURE: click animations (fine grained clicks)</CC>
 
 ---
 
@@ -440,7 +446,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: svg inlining</C>
+# <CC>FEATURE: svg inlining</CC>
 
 ---
 
@@ -524,7 +530,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: svg animations (and related)</C>
+# <CC>FEATURE: svg animations (and related)</CC>
 
 (using `<Anim>` and `<InlineSvg>`)
 
@@ -650,7 +656,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: playing with the (SVG) viewBox</C>
+# <CC>FEATURE: playing with the (SVG) viewBox</CC>
 
 (still using `<Anim>`)
 
@@ -686,7 +692,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: marker-based steps/clicks</C>
+# <CC>FEATURE: marker-based steps/clicks</CC>
 
 (still using `<Anim>`)
 
@@ -778,7 +784,7 @@ src: separator.md
 
 ---
 
-# <C>FEATURE: `<Anim>` katex "align" (equation block)</C>
+# <CC>FEATURE: `<Anim>` katex "align" (equation block)</CC>
 
 `spec="@maths 1-9"`
 
@@ -861,7 +867,7 @@ layout: anim
 spec: '@step 1 | @step 2 | -strong | @step 42'
 ---
 
-# <C>FEATURE: Anim Layout (shortcut)</C>
+# <CC>FEATURE: Anim Layout (shortcut)</CC>
 
 Defined in <gh href="layouts/anim.vue"/>
 
