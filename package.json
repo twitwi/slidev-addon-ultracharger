@@ -17,9 +17,11 @@
   "engines": {
     "slidev": ">=0.32.1"
   },
+  "dependencies": {
+    "parse-duration": "^1.0.2"
+  }
   "devDependencies": {
     "@slidev/cli": "^0.33.0",
-    "@slidev/theme-seriph": "^0.21.2",
-    "parse-duration": "^1.0.2"
+    "@slidev/theme-seriph": "^0.21.2"
   }
 }
