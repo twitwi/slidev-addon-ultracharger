@@ -22,10 +22,9 @@ slideHeightAsVariable['--slide-height'] = slideHeight + 'px'
   color: black; /* text not visible */
   position: absolute;
   left: 0;
-  right: 0;
+  right: 0;
   top: 0;
   bottom: 0;
-  width: 100vw;
   --blackout-duration: 150ms;
   --unblackout-duration: 450ms;
   transition: opacity var(--blackout-duration) ease, visibility 0ms;
