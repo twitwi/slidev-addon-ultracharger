@@ -756,12 +756,12 @@ NB: use a mark with class `step0` to decide up to where it is inially shown
 
 # Marker-based steps, `@steps` shortcut + special `&|`
 
-`spec="@steps 1-4 | -strong | @steps 5-8"`
+`spec="@steps 1-4 | -strong | @steps 5-"`
 
 NB: can use `@steps` and a range to simplify writting several `@step` \
 NB: can use `&|` to insert a span with class `step` (implemented in <gh href="./vite.config.ts"/>)
 
-<Anim spec="@steps 1-4 | -strong | @steps 5-8">
+<Anim spec="@steps 1-4 | -strong | @steps 5-">
 
 - first level
 - hum &|

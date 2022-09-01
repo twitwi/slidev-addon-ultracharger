@@ -254,7 +254,7 @@ const parsePart = (context: any) => (p:string) => {
   function splitFirst(pat) {
     const m = p.match(pat)
     if (m == null) throw `Cannot match «${pat}» in «${p}»`
-    prefix = p.substr(0, m.index)
+    const prefix = p.substring(0, m.index)
     p = p.substring(m.index + m[0].length)
     return prefix
   }
@@ -297,12 +297,10 @@ const parsePart = (context: any) => (p:string) => {
       alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
-    // TODO should find the total number... but how... so no for now
-    return parseRangeString(42, p).map(i => ['step', i])
+    return parseRangeString(nStepElements.value + 1, p).map(i => ['step', i])
   }
   if (hasPrefix('@maths ')) {
-    // TODO should find the total number... but how... so no for now
-    const r = parseRangeString(42, p)
+    const r = parseRangeString(nStepElements.value + 1, p)
     if (r.length > 1 && context.forbidComposite) {
       alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
       return []
@@ -310,9 +308,8 @@ const parsePart = (context: any) => (p:string) => {
     return r.map(i => ['show', '.mtable>* .vlist>span:not(.vlist .vlist span):nth-of-type('+i+')'])
   }
   if (hasPrefix('@mathsc ')) {
-    // TODO should find the total number... but how... so no for now
     const rangeSpec = splitFirst(/ +/)
-    const r = parseRangeString(42, rangeSpec)
+    const r = parseRangeString(nStepElements.value + 1, rangeSpec)
     if (r.length > 1 && context.forbidComposite) {
       alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
       return []
@@ -348,8 +345,10 @@ const steps = computed(() => {
   })
   return res
 })
+const nStepElements = ref(-1)
 const updateAll = ref(()=>{})
 onMounted(() => {
+  nStepElements.value = el.value.querySelectorAll('.step').length
   const prev = props.at == null ? elements?.value.length : props.at
   const index = computed(() => {
     if (disabled?.value) {
