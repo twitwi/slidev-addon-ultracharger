@@ -183,13 +183,6 @@ We can have a block with our macro definitions
 $$
 \gdef\xy{\green{X,y}}
 \text{we can define macros and use them in a block: } \xy{}
-$$
-
-And use them in our text $\xy$
-
-or in some block
-
-$$
 \text{we can use in a block: } \xy{}
 $$
 
@@ -733,7 +726,7 @@ NB: any big number is ok to show everything
 
 `spec="@step 1 | @step 2 | -strong | @step 42"`
 
-NB: use a mark with class `step0` to decide up to where it is inially shown
+NB: use a mark with class `step0` (or just `<s0/>`) to decide up to where it is initially shown
 
 <Anim spec="@step 1 | @step 2 | -strong | @step 42">
 
@@ -880,7 +873,7 @@ spec: '@step 1 | @step 2 | -strong | @step 42'
 
 - first level
 - hum
-- ok now we'll <span class="step0"/> **nest**
+- ok now we'll <s0/> **nest**
   - nested 1
   - nested 2 <span class="step"/> <span>and 2.5</span>
   - and 3
