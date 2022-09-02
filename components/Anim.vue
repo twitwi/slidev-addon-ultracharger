@@ -297,24 +297,25 @@ const parsePart = (context: any) => (p:string) => {
       alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
-    return parseRangeString(nStepElements.value + 1, p).map(i => ['step', i])
+    return parseRangeString(context.nStepElements() + 1, p).map(i => ['step', i])
   }
+  const mathSelector = '.mtable>* .vlist>span:not(.vlist .vlist span)'
   if (hasPrefix('@maths ')) {
-    const r = parseRangeString(nStepElements.value + 1, p)
+    const r = parseRangeString(context.nMathElements(), p)
     if (r.length > 1 && context.forbidComposite) {
       alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return r.map(i => ['show', '.mtable>* .vlist>span:not(.vlist .vlist span):nth-of-type('+i+')'])
+    return r.map(i => ['show', mathSelector+':nth-of-type('+i+')'])
   }
   if (hasPrefix('@mathsc ')) {
     const rangeSpec = splitFirst(/ +/)
-    const r = parseRangeString(nStepElements.value + 1, rangeSpec)
+    const r = parseRangeString(context.nMathElements(p+' '), rangeSpec)
     if (r.length > 1 && context.forbidComposite) {
       alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return r.map(i => ['show', p+' .mtable>* .vlist>span:not(.vlist .vlist span):nth-of-type('+i+')'])
+    return r.map(i => ['show', p+' '+mathSelector+':nth-of-type('+i+')'])
   }
   if (p.startsWith('@')) {
     alert('Unhandled @ animation: '+p)
@@ -324,9 +325,14 @@ const parsePart = (context: any) => (p:string) => {
 
 const el = ref<HTMLDivElement>()
 const vm = getCurrentInstance()
-const steps = computed(() => {
+const computeSteps = (el) => {
   const {dur:defaultDuration} = props
-  const ctx = {defaultDuration}
+  const ctx = {
+    defaultDuration,
+    nStepElements: () => el.querySelectorAll('.step').length,
+    nMathElements: (p="") => Math.max(...[...el.querySelectorAll(p+'.mtable>* .vlist')].map(vl => vl.querySelectorAll(':scope>span:not(.vlist .vlist span)').length)),
+  }
+
   const spec = props.spec.trim()
   if (spec.length == 0) {
     return []
@@ -334,7 +340,7 @@ const steps = computed(() => {
   const res = []
   spec.split(/\|/g).map(i => {
     if (i.trim().match(/ +\^ +/)) {
-      res.push(i.trim().split(/ +\^ +/g).map(parsePart({ctx, forbidComposite: true})))
+      res.push(i.trim().split(/ +\^ +/g).map(parsePart({...ctx, forbidComposite: true})))
     } else { // here allow multi-steps
       let parts:any = parsePart(ctx)(i.trim())
       if (typeof parts?.[0] === 'string') {
@@ -344,21 +350,21 @@ const steps = computed(() => {
     }
   })
   return res
-})
-const nStepElements = ref(-1)
+}
+
 const updateAll = ref(()=>{})
 onMounted(() => {
-  nStepElements.value = el.value.querySelectorAll('.step').length
+  const steps = computeSteps(el.value)
   const prev = props.at == null ? elements?.value.length : props.at
   const index = computed(() => {
     if (disabled?.value) {
-      return steps.value.length - 1
+      return steps.length - 1
     }
-    return Math.min(Math.max(0, (clicks?.value || 0) - (prev || 0)), steps.value.length)
+    return Math.min(Math.max(0, (clicks?.value || 0) - (prev || 0)), steps.length)
   })
-  if (steps.value.length >= 1 && !disabled?.value) {
+  if (steps.length >= 1 && !disabled?.value) {
     const id = makeid()
-    const ids = range(steps.value.length).map(i => id + i)
+    const ids = range(steps.length).map(i => id + i)
     if (elements?.value) {
       elements.value.push(...ids)
       onUnmounted(() => ids.forEach(i => remove(elements.value, i)), vm)
@@ -379,8 +385,8 @@ onMounted(() => {
       el: el.value,
     }
     // allow action to (re)init/setup things on the elements
-    for (let i = steps.value.length-1; i >= 0; --i) {
-      for (const part of steps.value[i]) {
+    for (let i = steps.length-1; i >= 0; --i) {
+      for (const part of steps[i]) {
         const [action, ...params] = part
         if (actions[action]) {
           actions[action].init?.(helper, ...params)
@@ -390,9 +396,9 @@ onMounted(() => {
       }
     }
     // reverse swipe to init using undo (by convention showing/unhiding an element means it is automatically hidden at the beginning)
-    for (let i = steps.value.length-1; i >= 0; --i) {
+    for (let i = steps.length-1; i >= 0; --i) {
       const willDo = i < index.value
-      for (const part of steps.value[i]) {
+      for (const part of steps[i]) {
         const [action, ...params] = part
         actions[action].undo({...helper, willDo}, ...params)
       }
@@ -400,11 +406,11 @@ onMounted(() => {
     // forward on the passed clicks
     for (let i = 0; i < index.value; ++i) {
       const delta = index.value - previousIndex
-      //console.log(__slidev__.nav.currentPage, previousIndex, index.value, delta, steps.value.length)
-      const fast = i < index.value-1 || delta < 1 || delta > 1 || (previousIndex === undefined && index.value == steps.value.length - 1)
+      //console.log(__slidev__.nav.currentPage, previousIndex, index.value, delta, steps.length)
+      const fast = i < index.value-1 || delta < 1 || delta > 1 || (previousIndex === undefined && index.value == steps.length - 1)
       const last = i == index.value-1
-      for (const j in steps.value[i]) {
-        const part = steps.value[i][j]
+      for (const j in steps[i]) {
+        const part = steps[i][j]
         const [action, ...params] = part
         // todo might have some optimization while step by step, e.g., not undoing/redoing all
         actions[action].doit({...helper, fast, last}, ...params)

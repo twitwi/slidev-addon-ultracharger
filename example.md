@@ -172,7 +172,9 @@ src: separator.md
 
 Can use gdef in katex/latex code and reuse them in other blocks or even slides.
 
-- ~~defined in <gh href="./setup/katex.vue"/>~~ might work by default (but it is still cool)
+- defined in <gh href="./setup/katex.vue"/> (might work by default in some contexts?) (but it is still cool)
+
+Also have katex errors inline in color as in $a^2 + 2\ab + b^2$.
 
 ---
 
@@ -183,6 +185,15 @@ We can have a block with our macro definitions
 $$
 \gdef\xy{\green{X,y}}
 \text{we can define macros and use them in a block: } \xy{}
+$$
+
+And use them in our text $\xy{}$
+
+or in some block
+
+<p></p>
+
+$$
 \text{we can use in a block: } \xy{}
 $$
 
@@ -779,7 +790,7 @@ src: separator.md
 
 # <CC>FEATURE: `<Anim>` katex "align" (equation block)</CC>
 
-`spec="@maths 1-9"`
+`spec="@maths 1-"`
 
 $$
 \gdef\lnp{\ln p}
@@ -797,7 +808,7 @@ $$
 \gdef\comm#1{\text{\textcolor{gray}{#1} } }
 $$
 
-<Anim spec="@maths 1-9">
+<Anim spec="@maths 1-">
 
 $$
 \begin{align*}
@@ -822,9 +833,9 @@ $$
 
 # `<Anim>` katex, specifying a context
 
-`spec="@mathsc 1-4 .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)"`
+`spec="@mathsc 1- .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)"`
 
-<Anim spec="@mathsc 1-4 .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)" class="my">
+<Anim spec="@mathsc 1- .my>:nth-child(1) | .my>:nth-child(2) | @mathsc 1-3 .my>:nth-child(3)" class="my">
 
 $$
 \begin{align*}
