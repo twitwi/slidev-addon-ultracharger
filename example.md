@@ -762,7 +762,9 @@ NB: use a mark with class `step0` (or just `<s0/>`) to decide up to where it is 
 
 `spec="@steps 1-4 | -strong | @steps 5-"`
 
-NB: can use `@steps` and a range to simplify writting several `@step` \
+NB: can use `@steps` and a range to simplify writing several `@step` \
+NB: can use an open range as in `@steps 5-` to go until the end \
+NB: spec defaults to `@steps 1-` \
 NB: can use `&|` to insert a span with class `step` (implemented in <gh href="./vite.config.ts"/>)
 
 <Anim spec="@steps 1-4 | -strong | @steps 5-">
