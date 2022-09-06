@@ -1,8 +1,9 @@
 <template>
     <component :is="type" :class="{
-      comment: true,
-      'hidden-comment': !(sharedState.showComments || isPresenter),
-      'presenter-comment': isPresenter,
+        ...(pre ? {'white-space': 'pre-wrap', height: 'auto'} : {}),
+        comment: true,
+        'hidden-comment': !(sharedState.showComments || isPresenter),
+        'presenter-comment': isPresenter,
     }"><slot /></component>
 </template>
 <script lang="ts" setup>
@@ -11,6 +12,7 @@ import { isPresenter } from '@slidev/client/logic/nav'
 
 const props = defineProps({
     type: { default: "span"},
+    pre: { default: false},
 })
 
 </script>
