@@ -1,8 +1,9 @@
 import { defineShortcutsSetup, NavOperations } from '@slidev/types'
 import { sharedState } from "@slidev/client/state/shared";
 import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav'
-export default defineShortcutsSetup((nav: NavOperations) => {
+export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => {
   return [
+    ...baseShortcuts,
     /* FEATURE browse slides */
     {
       key: 'z',
