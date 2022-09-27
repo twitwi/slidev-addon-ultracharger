@@ -38,16 +38,16 @@
 }
 
 /* CUSTOM: better styling inline code */ 
-:not(pre) code {
+:not(pre) > code {
 	padding: 0.1em .4em;
 	background-color: #EEE;
 	color: darkviolet;
 }
-.dark :not(pre) code {
+.dark :not(pre) > code {
 	color: violet;
 	background-color: #222;
 }
-:not(pre) code::before, :not(pre) code::after {
+:not(pre) > code::before, :not(pre) > code::after {
 	content: "";
 }
 
