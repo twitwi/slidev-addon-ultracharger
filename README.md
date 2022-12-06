@@ -2,11 +2,14 @@
 
 ## Demo
 
-A demo illustrating these addons is available in a separate repository ⇒ https://github.com/twitwi/slidev-addon-ultracharger-demo
+A demo illustrating these addons is available in a separate repository \
+⇒ https://github.com/twitwi/slidev-addon-ultracharger-demo
 
-To watch it ⇒ https://twitwi.github.io/slidev-addon-ultracharger-demo (not available yet)
+To watch it \
+⇒ https://twitwi.github.io/slidev-addon-ultracharger-demo
 
-## Use it
+
+## Use these features
 
 You can use them in your presentation by
 (see https://sli.dev/addons/use.html for a general documentation on using addons)
