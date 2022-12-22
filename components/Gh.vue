@@ -5,11 +5,12 @@ const inst = getCurrentInstance()
 
 const props = defineProps({
     href: { default: ""},
+    prefix: { default: undefined },
     line: { default: undefined},
 })
 const possibleHash = computed(() => props.line ? '#L'+props.line : '')
-// how could we access this $slidev.configs here?
+const prefix = computed(() => props.prefix ?? $slidev.configs.ghPrefix ?? './')
 </script>
 <template>
-    <a :href="$slidev.configs.ghPrefix + href + possibleHash" target="_blank" class="gh-link"><code>{{ href }}</code></a>
+    <a :href="prefix + href + possibleHash" target="_blank" class="gh-link"><code>{{ href }}</code></a>
 </template> 
