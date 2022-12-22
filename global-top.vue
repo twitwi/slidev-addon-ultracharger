@@ -8,7 +8,7 @@
       </button>
       {{ (conf('metaFooter') ?? "date author morefooter").split(" ").map(k => $slidev.configs[k]).filter(v => !!v).join(" − ") }}
       − 
-      {{ $slidev.nav.currentPage }} / {{ $slidev.nav.total+1 }}
+      {{ $slidev.nav.currentPage }} / {{ slideCount }}
   </footer>
 
   <!--AutoPlay /-->
@@ -19,6 +19,27 @@
   <Blackout v-if="has('blackout')"/>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const conf = (k) => $slidev.configs.addonsConfig?.ultracharger?.[k]
 const has = (feat) => ! conf('disable')?.includes(feat)
+
+const fakeEnds = computed(() => {
+  const trueEnd = $slidev.nav.total
+  let endParam = conf('fakeEnd') ?? ''
+  if (endParam === '') {
+    return [trueEnd]
+  }
+  if (typeof endParam === 'number') {
+    endParam = [endParam]
+  }
+  if (typeof endParam === 'string') {
+    endParam = endParam.split(' ').map(s => parseInt(s))
+  }
+  endParam = endParam.map(i => i < 0 ? trueEnd + i : i)
+  endParam.push(trueEnd)
+  endParam.sort((a, b) => a - b)
+  return endParam
+})
+const slideCount = computed(() => fakeEnds.value.find(e => e >= $slidev.nav.currentPage))
 </script>
