@@ -46,6 +46,7 @@ export default {
         prefixHrefs: true,
         styleToAttributes: true,
         idRewrite: true,
+        markersWorkaround: false,
       }, props.opts)
       if (patchedSVG) {
         let d = document.createElement('div')
@@ -122,6 +123,17 @@ export default {
               e.removeAttribute('style')
             }
           })
+        }
+
+        if (opts.markersWorkaround) {
+          for (let attr of ['fill', 'stroke']) {
+            svg.querySelectorAll(`marker *[${attr}]`).forEach(e => {
+              let val = e.getAttribute(attr)
+              if (val === 'context-fill' || val === 'context-stroke') {
+                e.removeAttribute(attr)
+              }
+            })
+          }
         }
 
         if (opts.idRewrite) {
