@@ -1,6 +1,9 @@
 <script lang="ts">
 import { h, ref, inject, nextTick } from "vue";
 
+// hard dependency on slidev for now, but can be cleaned-up
+import { injectionSlidevContext } from "@slidev/client/constants";
+
 let nextId = 1
 function generateId(/*oldId*/) {
   let id = 'uniquesvg' + nextId
@@ -17,12 +20,16 @@ export default {
     height: { default: undefined },
     opts: { default: {} },
   },
-  setup(props) {
+  setup(props, context) {
     // Ancestor components are free to inject a ref<callback> to know when this is rendered.
     const notifyAsyncDone = inject(
       "notifyAsyncDone",
       ref(() => {})
     );
+
+    const $slidev = inject(injectionSlidevContext)
+    let configOpts = $slidev?.configs?.addonsConfig?.ultracharger?.inlineSvg ?? {}
+
     const rawSvg = ref("");
     (async function () {
       //console.log(import.meta.env.BASE_URL, props.src.replace(/^\//, ''))
@@ -47,7 +54,7 @@ export default {
         styleToAttributes: true,
         idRewrite: true,
         markersWorkaround: false,
-      }, props.opts)
+      }, configOpts, props.opts)
       if (patchedSVG) {
         let d = document.createElement('div')
         d.innerHTML = patchedSVG
