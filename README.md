@@ -23,3 +23,10 @@ addons:
   - slidev-addon-ultracharger
 ```
 
+### Some notable versions
+
+```
+github:twitwi/slidev-addon-ultracharger#v0.0.1-incubation (the version that used to be named twitwi/slidev-addon-incubation)
+github:twitwi/slidev-addon-ultracharger#vslidev0.38.8     (the version before the fix for slidev 0.39.0 layout issue)
+```
+
