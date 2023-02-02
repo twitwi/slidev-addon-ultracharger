@@ -1,6 +1,6 @@
 {
   "name": "slidev-addon-ultracharger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Incubator for slidev addons, to be released or not",
   "scripts": {
     "dev": "slidev example.md",
@@ -15,7 +15,7 @@
   "author": "R. Emonet",
   "license": "ISC",
   "engines": {
-    "slidev": ">=0.38.0"
+    "slidev": ">=0.39.0"
   },
   "dependencies": {
     "parse-duration": "^1.0.2"

@@ -10,11 +10,12 @@
       −
       {{ $slidev.nav.currentPage }} / {{ slideCount }}
   </footer>
-
-  <!--AutoPlay /-->
-  <TocNG v-if="has('tocFooter')" mode="allDots" :max-depth="1" class="absolute bottom-0 right-5" />
+  <footer>
+    <!--AutoPlay /-->
+    <TocNG v-if="has('tocFooter')" mode="allDots" :max-depth="1" class="absolute bottom-0 right-5" />
+    <Blackout v-if="has('blackout')" />
+  </footer>
   <!--TOC mode="dots" class="absolute bottom-0 right-5" /-->
-  <Blackout v-if="has('blackout')" />
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
