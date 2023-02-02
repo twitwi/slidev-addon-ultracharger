@@ -7,22 +7,20 @@
           <carbon:edit />
       </button>
       {{ (conf('metaFooter') ?? "date author morefooter").split(" ").map(k => $slidev.configs[k]).filter(v => !!v).join(" − ") }}
-      − 
+      −
       {{ $slidev.nav.currentPage }} / {{ slideCount }}
   </footer>
 
   <!--AutoPlay /-->
-  <TocNG
-    v-if="has('tocFooter')"
-    mode="allDots" :max-depth="1" class="absolute bottom-0 right-5"/>
+  <TocNG v-if="has('tocFooter')" mode="allDots" :max-depth="1" class="absolute bottom-0 right-5" />
   <!--TOC mode="dots" class="absolute bottom-0 right-5" /-->
-  <Blackout v-if="has('blackout')"/>
+  <Blackout v-if="has('blackout')" />
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
 
 const conf = (k) => $slidev.configs.addonsConfig?.ultracharger?.[k]
-const has = (feat) => ! conf('disable')?.includes(feat)
+const has = (feat) => !conf('disable')?.includes(feat)
 
 const fakeEnds = computed(() => {
   const trueEnd = $slidev.nav.total
