@@ -40,5 +40,13 @@ export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => 
         (<any>sharedState).showComments = !((<any>sharedState).showComments ?? false);
       },
     },
+
+    /* FEATURE toggle drawing */
+    {
+      key: "p",
+      fn: () => {
+        nav.toggleDrawing()
+      },
+    },
   ]
 })
