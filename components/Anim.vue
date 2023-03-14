@@ -317,6 +317,24 @@ const parsePart = (context: any) => (p:string) => {
     }
     return r.map(i => ['show', p+' '+mathSelector+':nth-of-type('+i+')'])
   }
+  const codeSelector = 'pre>code>span.line'
+  if (hasPrefix('@code ')) {
+    const r = parseRangeString(context.nCodeElements(), p)
+    if (r.length > 1 && context.forbidComposite) {
+      alert('@code with a range is not allowed here (e.g. in ^ separated steps)')
+      return []
+    }
+    return r.map(i => ['show', codeSelector+':nth-of-type('+i+')'])
+  }
+  if (hasPrefix('@codec ')) {
+    const rangeSpec = splitFirst(/ +/)
+    const r = parseRangeString(context.nCodeElements(p+' '), rangeSpec)
+    if (r.length > 1 && context.forbidComposite) {
+      alert('@codec with a range is not allowed here (e.g. in ^ separated steps)')
+      return []
+    }
+    return r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')'])
+  }
   if (p.startsWith('@')) {
     alert('Unhandled @ animation: '+p)
   }
@@ -331,6 +349,7 @@ const computeSteps = (el) => {
     defaultDuration,
     nStepElements: () => el.querySelectorAll('.step').length,
     nMathElements: (p="") => Math.max(...[...el.querySelectorAll(p+'.mtable>* .vlist')].map(vl => vl.querySelectorAll(':scope>span:not(.vlist .vlist span)').length)),
+    nCodeElements: (p="") => Math.max(...[...el.querySelectorAll(p+' pre>code')].map(vl => vl.querySelectorAll(':scope>span.line').length)),
   }
 
   const spec = props.spec.trim()
