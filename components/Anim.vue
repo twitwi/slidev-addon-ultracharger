@@ -246,7 +246,7 @@ const parsePart = (context: any) => (p:string) => {
   function hasPrefix(pr) {
     if (p.startsWith(pr)) {
       prefix = pr
-      p = p.substr(pr.length)
+      p = p.substring(pr.length)
       return true
     }
     return false
@@ -319,16 +319,15 @@ const parsePart = (context: any) => (p:string) => {
   }
   const codeSelector = 'pre>code>span.line'
   if (hasPrefix('@code ')) {
-    const r = parseRangeString(context.nCodeElements(), p)
-    if (r.length > 1 && context.forbidComposite) {
-      alert('@code with a range is not allowed here (e.g. in ^ separated steps)')
-      return []
+    let rangeSpec = p
+    let cxtSel = ''
+    try {
+      rangeSpec = splitFirst(/ +/)
+      cxtSel = p
     }
-    return r.map(i => ['show', codeSelector+':nth-of-type('+i+')'])
-  }
-  if (hasPrefix('@codec ')) {
-    const rangeSpec = splitFirst(/ +/)
-    const r = parseRangeString(context.nCodeElements(p+' '), rangeSpec)
+    if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
+    }
+    const r = parseRangeString(context.nCodeElements(cxtSel+' '), rangeSpec)
     if (r.length > 1 && context.forbidComposite) {
       alert('@codec with a range is not allowed here (e.g. in ^ separated steps)')
       return []
@@ -349,7 +348,7 @@ const computeSteps = (el) => {
     defaultDuration,
     nStepElements: () => el.querySelectorAll('.step').length,
     nMathElements: (p="") => Math.max(...[...el.querySelectorAll(p+'.mtable>* .vlist')].map(vl => vl.querySelectorAll(':scope>span:not(.vlist .vlist span)').length)),
-    nCodeElements: (p="") => Math.max(...[...el.querySelectorAll(p+' pre>code')].map(vl => vl.querySelectorAll(':scope>span.line').length)),
+    nCodeElements: (p) => Math.max(...[...el.querySelectorAll(p+' pre>code')].map(vl => vl.querySelectorAll(':scope>span.line').length)),
   }
 
   const spec = props.spec.trim()
