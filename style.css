@@ -29,7 +29,7 @@
 .katex { color: #006; }
 .dark .katex { color: #DEF; }
 
-/* CUSTOM: wikipedia link component */
+/* CUSTOM: wikipedia link component TODO MOVE TO THE COMPONENT so it is standalone (if ppl copy/paste it) */
 .wikipedia-link {
 	font-size: 50%;
 	vertical-align: top;

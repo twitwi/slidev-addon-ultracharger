@@ -53,6 +53,25 @@ const actions = {
       all(sel, e => e.classList.add('anim-shown'))
     },
   },
+  highlight: {
+    doit({all}, sel) {
+      console.log("DO highlight", sel)
+      all(sel, e => e.classList.remove('dishonored'))
+      all(sel, e => e.classList.add('highlighted'))
+    },
+    undo({all}, sel) {
+    },
+  },
+  unhighlight: {
+    doit({all}, sel) {
+      console.log("DO unhighlight", sel)
+      all(sel, e => console.log(e))
+      all(sel, e => e.classList.remove('highlighted'))
+      all(sel, e => e.classList.add('dishonored'))
+    },
+    undo({all}, sel) {
+    },
+  },
   addClass: {
     doit({all}, cl, sel) {
       all(sel, e => e.classList.add(cl))
@@ -317,22 +336,65 @@ const parsePart = (context: any) => (p:string) => {
     }
     return r.map(i => ['show', p+' '+mathSelector+':nth-of-type('+i+')'])
   }
-  const codeSelector = 'pre>code>span.line'
+  const codeSelectorBase = 'pre.slidev-code>code'
+  const codeSelectorBaseFirst = 'pre.slidev-code:first-of-type>code'
+  const codeSelectorSub = '>span.line'
+  const codeSelector = codeSelectorBase + codeSelectorSub
   if (hasPrefix('@code ')) {
     let rangeSpec = p
-    let cxtSel = ''
+    let ctxSel = ''
+    let highlightMode = false
     try {
       rangeSpec = splitFirst(/ +/)
-      cxtSel = p
+      ctxSel = p + ' '
+    } catch {
+      // pass
     }
     if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
+      if (!rangeSpec.trimEnd().endsWith('}')) {
+        alert('@codec with a slidev range spec must end in } (and must not contain spaces)')
+        return []
+      }
+      highlightMode = true
+      rangeSpec = rangeSpec.trimEnd().slice(1, -1).replace(/;/g, '|')
+      // https://github.com/slidevjs/slidev/blob/main/packages/client/builtin/CodeBlockWrapper.vue#L72
+      /*
+      const isDuoTone = context.elValue().querySelector('.shiki-dark')
+      const targets = isDuoTone ? Array.from(el.value.querySelectorAll('.shiki')) : [el.value]
+      for (const target of targets) {
+        const lines = Array.from(target.querySelectorAll('.line'))
+        const highlights: number[] = parseRangeString(lines.length, rangeStr.value)
+        lines.forEach((line, idx) => {
+          const highlighted = highlights.includes(idx + 1)
+          line.classList.toggle(CLASS_VCLICK_TARGET, true)
+          line.classList.toggle('highlighted', highlighted)
+          line.classList.toggle('dishonored', !highlighted)
+        })
+        if (props.maxHeight) {
+          const firstHighlightedEl = target.querySelector('.line.highlighted')
+          if (firstHighlightedEl)
+            firstHighlightedEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }
+      */
     }
-    const r = parseRangeString(context.nCodeElements(cxtSel+' '), rangeSpec)
-    if (r.length > 1 && context.forbidComposite) {
-      alert('@codec with a range is not allowed here (e.g. in ^ separated steps)')
-      return []
+    const r = parseRangeString(context.nCodeElements(ctxSel), rangeSpec)
+    if (highlightMode) {
+      console.log(r)
+      const res: string[][] = []
+      for (const target of context.elValue().querySelectorAll(ctxSel+codeSelectorBaseFirst)) {
+        target.querySelectorAll(':scope '+codeSelectorSub).forEach((e, i) => {
+          res.push([r.includes(i+1) ? 'highlight' : 'unhighlight', ctxSel+codeSelector+':nth-of-type('+(i+1)+')'])
+        })
+      }
+      return ['RAW', ...res]
+    } else {
+      if (r.length > 1 && context.forbidComposite) {
+        alert('@code with a range is not allowed here (e.g. in ^ separated steps)')
+        return []
+      }
+      return r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')'])
     }
-    return r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')'])
   }
   if (p.startsWith('@')) {
     alert('Unhandled @ animation: '+p)
@@ -346,9 +408,10 @@ const computeSteps = (el) => {
   const {dur:defaultDuration} = props
   const ctx = {
     defaultDuration,
+    elValue: () => el,
     nStepElements: () => el.querySelectorAll('.step').length,
     nMathElements: (p="") => Math.max(...[...el.querySelectorAll(p+'.mtable>* .vlist')].map(vl => vl.querySelectorAll(':scope>span:not(.vlist .vlist span)').length)),
-    nCodeElements: (p) => Math.max(...[...el.querySelectorAll(p+' pre>code')].map(vl => vl.querySelectorAll(':scope>span.line').length)),
+    nCodeElements: (p) => Math.max(...[...el.querySelectorAll(p+' pre.slidev-code:first-of-type>code')].map(vl => vl.querySelectorAll(':scope>span.line').length)),
   }
 
   const spec = props.spec.trim()
@@ -361,10 +424,14 @@ const computeSteps = (el) => {
       res.push(i.trim().split(/ +\^ +/g).map(parsePart({...ctx, forbidComposite: true})))
     } else { // here allow multi-steps
       let parts:any = parsePart(ctx)(i.trim())
-      if (typeof parts?.[0] === 'string') {
-        parts = [parts]
+      if (parts?.[0] === 'RAW') {
+        res.push(parts.slice(1))
+      } else {
+        if (typeof parts?.[0] === 'string') {
+          parts = [parts]
+        }
+        res.push(...parts.map(p => [p]))
       }
-      res.push(...parts.map(p => [p]))
     }
   })
   return res
