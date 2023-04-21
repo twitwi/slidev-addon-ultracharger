@@ -443,7 +443,7 @@ onMounted(() => {
   const prev = props.at == null ? elements?.value.length : props.at
   const index = computed(() => {
     if (disabled?.value) {
-      return steps.length - 1
+      return steps.length
     }
     return Math.min(Math.max(0, (clicks?.value || 0) - (prev || 0)), steps.length)
   })
