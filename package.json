@@ -1,6 +1,6 @@
 {
   "name": "slidev-addon-ultracharger",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Incubator for slidev addons, to be released or not",
   "scripts": {
     "dev": "slidev example.md",

@@ -313,35 +313,75 @@ const parsePart = (context: any) => (p:string) => {
     return ['viewBoxAs', boxSelector, p]
   }
   if (hasPrefix('@step ')) {
-    if (p.indexOf('-') !== -1) {
-      alert('@step "'+p+'" contains "-", did you mean @steps?')
-    }
-    return ['step', parseInt(p)]
-  }
-  if (hasPrefix('@steps ')) {
-    if (context.forbidComposite) {
+    const r = parseRangeString(context.nStepElements() + 1, p)
+    if (r.length > 1 && context.forbidComposite) {
       alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
-    return parseRangeString(context.nStepElements() + 1, p).map(i => [['step', i]])
-  }
-  const mathSelector = '.mtable>* .vlist>span:not(.vlist .vlist span)'
-  if (hasPrefix('@maths ')) {
-    const r = parseRangeString(context.nMathElements(), p)
-    if (r.length > 1 && context.forbidComposite) {
-      alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
-      return []
+    if (r.length === 1) {
+      return ['step', r[0]]
+    } else {
+      return r.map(i => [['step', i]])
     }
-    return r.map(i => [['show', mathSelector+':nth-of-type('+i+')']])
   }
-  if (hasPrefix('@mathsc ')) {
-    const rangeSpec = splitFirst(/ +/)
-    const r = parseRangeString(context.nMathElements(p+' '), rangeSpec)
-    if (r.length > 1 && context.forbidComposite) {
-      alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
-      return []
+  const mathSelectorBase = '.mtable'
+  const mathSelectorBaseFirst = '.mtable:first-of-type'
+  const mathSelectorSub = '>* .vlist>span:not(.vlist .vlist span)'
+  const mathSelector = mathSelectorBase + mathSelectorSub
+  if (hasPrefix('@math ')) { // TODO this is a refactored copy, do proper refactoring
+    let rangeSpec = p
+    let ctxSel = ''
+    let highlightMode = false
+    let stepMode = true
+    try {
+      rangeSpec = splitFirst(/ +/)
+      ctxSel = p + ' '
+    } catch {
+      // pass
     }
-    return r.map(i => [['show', p+' '+mathSelector+':nth-of-type('+i+')']])
+    if (rangeSpec.startsWith('[')) { // Block mode
+      if (!rangeSpec.trimEnd().endsWith(']')) {
+        alert('@math with a range spec must end in ] (and must not contain spaces)')/**/
+        return []
+      }
+      stepMode = false
+      rangeSpec = rangeSpec.trimEnd().slice(1, -1)
+    } else if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
+      if (!rangeSpec.trimEnd().endsWith('}')) {
+        alert('@math with a slidev range spec must end in } (and must not contain spaces)')/**/
+        return []
+      }
+      highlightMode = true
+      rangeSpec = rangeSpec.trimEnd().slice(1, -1)
+    }
+    if (highlightMode) {
+      const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nMathElements/**/(ctxSel), r))
+      const res: string[][][] = []
+      for (const r of ranges) {
+        const subres = []
+        res.push(subres)
+        for (const target of context.elValue().querySelectorAll(ctxSel+mathSelectorBaseFirst/**/)) {
+          target.querySelectorAll(':scope '+mathSelectorSub/**/).forEach((e, i) => {
+            subres.push([r.includes(i+1) ? 'highlight' : 'unhighlight', ctxSel+mathSelector/**/+':nth-of-type('+(i+1)+')'])
+          })
+        }
+      }
+      return res
+    } else {
+      const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nMathElements/**/(ctxSel), r))
+      let res: string[][] | string[][][] = [] as string[][][]
+      for (const r of ranges) {
+        res.push(r.map(i => ['show', ctxSel+mathSelector/**/+':nth-of-type('+i+')']))
+      }
+      if (stepMode) {
+        res = res.flat().map(e => [e])
+      }
+      if (res.length > 1 && context.forbidComposite) {
+        alert('@math with a range is not allowed here (e.g. in ^ separated steps)')/**/
+        return []
+      }
+      return res
+    }
   }
   const codeSelectorBase = 'pre.slidev-code>code'
   const codeSelectorBaseFirst = 'pre.slidev-code:first-of-type>code'
@@ -351,16 +391,20 @@ const parsePart = (context: any) => (p:string) => {
     let rangeSpec = p
     let ctxSel = ''
     let highlightMode = false
-    let stepMode = false
+    let stepMode = true
     try {
       rangeSpec = splitFirst(/ +/)
       ctxSel = p + ' '
     } catch {
       // pass
     }
-    if (rangeSpec.startsWith('...')) { // Step by step
-      stepMode = true
-      rangeSpec = rangeSpec.trimEnd().slice(3)
+    if (rangeSpec.startsWith('[')) { // Block mode
+      if (!rangeSpec.trimEnd().endsWith(']')) {
+        alert('@code with a range spec must end in ] (and must not contain spaces)')
+        return []
+      }
+      stepMode = false
+      rangeSpec = rangeSpec.trimEnd().slice(1, -1)
     } else if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
       if (!rangeSpec.trimEnd().endsWith('}')) {
         alert('@code with a slidev range spec must end in } (and must not contain spaces)')
@@ -369,27 +413,8 @@ const parsePart = (context: any) => (p:string) => {
       // NB: splitted there in the codeblock https://github.com/slidevjs/slidev/blob/0abf4cb9a9824e790d236a662bf9c8674a00374f/packages/slidev/node/plugins/markdown.ts#L152
       highlightMode = true
       rangeSpec = rangeSpec.trimEnd().slice(1, -1)
-      // .replace(/;/g, '|')
       // https://github.com/slidevjs/slidev/blob/main/packages/client/builtin/CodeBlockWrapper.vue#L72
-      /*
-      const isDuoTone = context.elValue().querySelector('.shiki-dark')
-      const targets = isDuoTone ? Array.from(el.value.querySelectorAll('.shiki')) : [el.value]
-      for (const target of targets) {
-        const lines = Array.from(target.querySelectorAll('.line'))
-        const highlights: number[] = parseRangeString(lines.length, rangeStr.value)
-        lines.forEach((line, idx) => {
-          const highlighted = highlights.includes(idx + 1)
-          line.classList.toggle(CLASS_VCLICK_TARGET, true)
-          line.classList.toggle('highlighted', highlighted)
-          line.classList.toggle('dishonored', !highlighted)
-        })
-        if (props.maxHeight) {
-          const firstHighlightedEl = target.querySelector('.line.highlighted')
-          if (firstHighlightedEl)
-            firstHighlightedEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }
-      }
-      */
+      // Contains things not mimicked here: CLASS_VCLICK_TARGET, scrollIntoView, narrower targets
     }
     if (highlightMode) {
       const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nCodeElements(ctxSel), r))
@@ -408,7 +433,7 @@ const parsePart = (context: any) => (p:string) => {
       const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nCodeElements(ctxSel), r))
       let res: string[][] | string[][][] = [] as string[][][]
       for (const r of ranges) {
-        res.push(r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')']))
+        res.push(r.map(i => ['show', ctxSel+codeSelector+':nth-of-type('+i+')']))
       }
       if (stepMode) {
         res = res.flat().map(e => [e])
