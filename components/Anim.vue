@@ -265,6 +265,8 @@ function makeid(length = 5) {
   return result.join('')
 }
 const parsePart = (context: any) => (p:string) => {
+  // returns either one action (e.g. ['show', 'div']) or a list of steps, each is a list of action (e.g. [[['show', 'div']]])
+
   // NB: p gets modified by utility functions
   let prefix = null
   function hasPrefix(pr) {
@@ -321,7 +323,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
-    return ['RAW', ...parseRangeString(context.nStepElements() + 1, p).map(i => [['step', i]])]
+    return parseRangeString(context.nStepElements() + 1, p).map(i => [['step', i]])
   }
   const mathSelector = '.mtable>* .vlist>span:not(.vlist .vlist span)'
   if (hasPrefix('@maths ')) {
@@ -330,7 +332,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return ['RAW', ...r.map(i => [['show', mathSelector+':nth-of-type('+i+')']])]
+    return r.map(i => [['show', mathSelector+':nth-of-type('+i+')']])
   }
   if (hasPrefix('@mathsc ')) {
     const rangeSpec = splitFirst(/ +/)
@@ -339,7 +341,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return ['RAW', ...r.map(i => [['show', p+' '+mathSelector+':nth-of-type('+i+')']])]
+    return r.map(i => [['show', p+' '+mathSelector+':nth-of-type('+i+')']])
   }
   const codeSelectorBase = 'pre.slidev-code>code'
   const codeSelectorBaseFirst = 'pre.slidev-code:first-of-type>code'
@@ -401,7 +403,7 @@ const parsePart = (context: any) => (p:string) => {
           })
         }
       }
-      return ['RAW', ...res]
+      return res
     } else {
       const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nCodeElements(ctxSel), r))
       let res: string[][] | string[][][] = [] as string[][][]
@@ -415,7 +417,7 @@ const parsePart = (context: any) => (p:string) => {
         alert('@code with a range is not allowed here (e.g. in ^ separated steps)')
         return []
       }
-      return ['RAW', ...res]
+      return res
     }
   }
   if (p.startsWith('@')) {
@@ -449,25 +451,21 @@ const computeSteps = (el) => {
       i.trim().split(/ +\^ +/g)
       .map(parsePart({...ctx, forbidComposite: true}))
       .forEach(parts => {
-        if (parts?.[0] === 'RAW') {
-          if (parts.length > 2) {
-            alert('Too many RAW result while forbidComposite')
-          }
-          subres.push(...parts[1])
-        } else if (typeof parts?.[0] === 'string') {
+        if (typeof parts?.[0] === 'string') {
           subres.push(parts)
         } else {
-          console.log("ERRORRRRRRRRRRRR", res, parts, i.trim())
+          if (parts.length > 2) {
+            alert('Too many steps while forbidComposite:true was passed')
+          }
+          subres.push(...parts[0])
         }
       })
     } else { // here allow multi-steps (that get unfolded)
       let parts:any = parsePart(ctx)(i.trim())
-      if (parts?.[0] === 'RAW') {
-        res.push(...parts.slice(1))
-      } else if (typeof parts?.[0] === 'string') {
+      if (typeof parts?.[0] === 'string') {
         res.push([parts])
       } else {
-        console.log("ERRRRRRRRRRRRROR", res, parts, i.trim())
+        res.push(...parts)
       }
     }
   })
