@@ -1,4 +1,7 @@
 
+.slidev-code .line.dishonored2 {
+	opacity: 0.3;
+}
 
 /* FEATURE Outline, necessary default style */
 .highlight {

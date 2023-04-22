@@ -55,21 +55,26 @@ const actions = {
   },
   highlight: {
     doit({all}, sel) {
-      console.log("DO highlight", sel)
       all(sel, e => e.classList.remove('dishonored'))
+      all(sel, e => e.classList.remove('dishonored2'))
       all(sel, e => e.classList.add('highlighted'))
     },
     undo({all}, sel) {
+      all(sel, e => e.classList.remove('highlighted'))
+      all(sel, e => e.classList.add('dishonored'))
+      all(sel, e => e.classList.add('dishonored2'))
     },
   },
   unhighlight: {
     doit({all}, sel) {
-      console.log("DO unhighlight", sel)
-      all(sel, e => console.log(e))
       all(sel, e => e.classList.remove('highlighted'))
       all(sel, e => e.classList.add('dishonored'))
+      all(sel, e => e.classList.add('dishonored2'))
     },
     undo({all}, sel) {
+      all(sel, e => e.classList.remove('dishonored'))
+      all(sel, e => e.classList.remove('dishonored2'))
+      all(sel, e => e.classList.add('highlighted'))
     },
   },
   addClass: {
@@ -316,7 +321,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@steps is not allowed here (e.g. in ^ separated steps), use @step')
       return []
     }
-    return parseRangeString(context.nStepElements() + 1, p).map(i => ['step', i])
+    return ['RAW', ...parseRangeString(context.nStepElements() + 1, p).map(i => [['step', i]])]
   }
   const mathSelector = '.mtable>* .vlist>span:not(.vlist .vlist span)'
   if (hasPrefix('@maths ')) {
@@ -325,7 +330,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@maths with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return r.map(i => ['show', mathSelector+':nth-of-type('+i+')'])
+    return ['RAW', ...r.map(i => [['show', mathSelector+':nth-of-type('+i+')']])]
   }
   if (hasPrefix('@mathsc ')) {
     const rangeSpec = splitFirst(/ +/)
@@ -334,7 +339,7 @@ const parsePart = (context: any) => (p:string) => {
       alert('@mathsc with a range is not allowed here (e.g. in ^ separated steps)')
       return []
     }
-    return r.map(i => ['show', p+' '+mathSelector+':nth-of-type('+i+')'])
+    return ['RAW', ...r.map(i => [['show', p+' '+mathSelector+':nth-of-type('+i+')']])]
   }
   const codeSelectorBase = 'pre.slidev-code>code'
   const codeSelectorBaseFirst = 'pre.slidev-code:first-of-type>code'
@@ -344,19 +349,25 @@ const parsePart = (context: any) => (p:string) => {
     let rangeSpec = p
     let ctxSel = ''
     let highlightMode = false
+    let stepMode = false
     try {
       rangeSpec = splitFirst(/ +/)
       ctxSel = p + ' '
     } catch {
       // pass
     }
-    if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
+    if (rangeSpec.startsWith('...')) { // Step by step
+      stepMode = true
+      rangeSpec = rangeSpec.trimEnd().slice(3)
+    } else if (rangeSpec.startsWith('{')) { // Highlight-syntax for slidev compat
       if (!rangeSpec.trimEnd().endsWith('}')) {
-        alert('@codec with a slidev range spec must end in } (and must not contain spaces)')
+        alert('@code with a slidev range spec must end in } (and must not contain spaces)')
         return []
       }
+      // NB: splitted there in the codeblock https://github.com/slidevjs/slidev/blob/0abf4cb9a9824e790d236a662bf9c8674a00374f/packages/slidev/node/plugins/markdown.ts#L152
       highlightMode = true
-      rangeSpec = rangeSpec.trimEnd().slice(1, -1).replace(/;/g, '|')
+      rangeSpec = rangeSpec.trimEnd().slice(1, -1)
+      // .replace(/;/g, '|')
       // https://github.com/slidevjs/slidev/blob/main/packages/client/builtin/CodeBlockWrapper.vue#L72
       /*
       const isDuoTone = context.elValue().querySelector('.shiki-dark')
@@ -378,22 +389,33 @@ const parsePart = (context: any) => (p:string) => {
       }
       */
     }
-    const r = parseRangeString(context.nCodeElements(ctxSel), rangeSpec)
     if (highlightMode) {
-      console.log(r)
-      const res: string[][] = []
-      for (const target of context.elValue().querySelectorAll(ctxSel+codeSelectorBaseFirst)) {
-        target.querySelectorAll(':scope '+codeSelectorSub).forEach((e, i) => {
-          res.push([r.includes(i+1) ? 'highlight' : 'unhighlight', ctxSel+codeSelector+':nth-of-type('+(i+1)+')'])
-        })
+      const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nCodeElements(ctxSel), r))
+      const res: string[][][] = []
+      for (const r of ranges) {
+        const subres = []
+        res.push(subres)
+        for (const target of context.elValue().querySelectorAll(ctxSel+codeSelectorBaseFirst)) {
+          target.querySelectorAll(':scope '+codeSelectorSub).forEach((e, i) => {
+            subres.push([r.includes(i+1) ? 'highlight' : 'unhighlight', ctxSel+codeSelector+':nth-of-type('+(i+1)+')'])
+          })
+        }
       }
       return ['RAW', ...res]
     } else {
-      if (r.length > 1 && context.forbidComposite) {
+      const ranges = rangeSpec.split(/\|/g).map(r => parseRangeString(context.nCodeElements(ctxSel), r))
+      let res: string[][] | string[][][] = [] as string[][][]
+      for (const r of ranges) {
+        res.push(r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')']))
+      }
+      if (stepMode) {
+        res = res.flat().map(e => [e])
+      }
+      if (res.length > 1 && context.forbidComposite) {
         alert('@code with a range is not allowed here (e.g. in ^ separated steps)')
         return []
       }
-      return r.map(i => ['show', p+' '+codeSelector+':nth-of-type('+i+')'])
+      return ['RAW', ...res]
     }
   }
   if (p.startsWith('@')) {
@@ -418,19 +440,34 @@ const computeSteps = (el) => {
   if (spec.length == 0) {
     return []
   }
-  const res = []
-  spec.split(/\|/g).map(i => {
+  const res: string[][][] = [] // list of steps, each a list of actions, each a descriptor (list of string)
+  spec.split(/\| /g).forEach(i => {
+    
     if (i.trim().match(/ +\^ +/)) {
-      res.push(i.trim().split(/ +\^ +/g).map(parsePart({...ctx, forbidComposite: true})))
-    } else { // here allow multi-steps
+      const subres:string[][] = []
+      res.push(subres)
+      i.trim().split(/ +\^ +/g)
+      .map(parsePart({...ctx, forbidComposite: true}))
+      .forEach(parts => {
+        if (parts?.[0] === 'RAW') {
+          if (parts.length > 2) {
+            alert('Too many RAW result while forbidComposite')
+          }
+          subres.push(...parts[1])
+        } else if (typeof parts?.[0] === 'string') {
+          subres.push(parts)
+        } else {
+          console.log("ERRORRRRRRRRRRRR", res, parts, i.trim())
+        }
+      })
+    } else { // here allow multi-steps (that get unfolded)
       let parts:any = parsePart(ctx)(i.trim())
       if (parts?.[0] === 'RAW') {
-        res.push(parts.slice(1))
+        res.push(...parts.slice(1))
+      } else if (typeof parts?.[0] === 'string') {
+        res.push([parts])
       } else {
-        if (typeof parts?.[0] === 'string') {
-          parts = [parts]
-        }
-        res.push(...parts.map(p => [p]))
+        console.log("ERRRRRRRRRRRRROR", res, parts, i.trim())
       }
     }
   })
