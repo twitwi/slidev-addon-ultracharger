@@ -1,6 +1,6 @@
 import { defineShortcutsSetup, NavOperations } from '@slidev/types'
-import { sharedState } from "@slidev/client/state/shared";
-import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav'
+import { sharedState } from "@slidev/client/state/shared.ts";
+import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav.ts'
 export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => {
   return [
     ...baseShortcuts,

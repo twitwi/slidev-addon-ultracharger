@@ -7,8 +7,8 @@
     }"><slot /></component>
 </template>
 <script lang="ts" setup>
-import { sharedState } from '@slidev/client/state/shared'
-import { isPresenter } from '@slidev/client/logic/nav'
+import { sharedState } from '@slidev/client/state/shared.ts'
+import { isPresenter } from '@slidev/client/logic/nav.ts'
 
 const props = defineProps({
     type: { default: "span"},

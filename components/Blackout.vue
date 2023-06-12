@@ -9,9 +9,9 @@
   >Blacked out</div>
 </template>
 <script lang="ts" setup>
-import { slideHeight } from '@slidev/client/env'
-import { sharedState } from '@slidev/client/state/shared'
-import { isPresenter } from '@slidev/client/logic/nav'
+import { slideHeight } from '@slidev/client/env.ts'
+import { sharedState } from '@slidev/client/state/shared.ts'
+import { isPresenter } from '@slidev/client/logic/nav.ts'
 // avoid type checking...
 let slideHeightAsVariable = {}
 slideHeightAsVariable['--slide-height'] = slideHeight + 'px'

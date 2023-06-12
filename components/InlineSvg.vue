@@ -2,7 +2,7 @@
 import { h, ref, inject, nextTick } from "vue";
 
 // hard dependency on slidev for now, but can be cleaned-up
-import { injectionSlidevContext } from "@slidev/client/constants";
+import { injectionSlidevContext } from "@slidev/client/constants.ts";
 
 let nextId = 1
 function generateId(/*oldId*/) {

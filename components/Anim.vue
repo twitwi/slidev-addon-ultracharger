@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { range, remove } from '@antfu/utils'
 import { computed, getCurrentInstance, inject, onMounted, onUnmounted, ref, watchEffect, provide } from 'vue'
-import { injectionClicks, injectionClicksElements, injectionClicksDisabled } from '@slidev/client/constants'
+import { injectionClicks, injectionClicksElements, injectionClicksDisabled } from '@slidev/client/constants.ts'
 import { parseRangeString } from '@slidev/parser'
 import parseDuration from 'parse-duration'
 import { animate } from "popmotion"

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { useIntervalFn } from '@vueuse/core'
 import { ref } from 'vue'
-import { next, hasNext, go } from '@slidev/client/logic/nav'
+import { next, hasNext, go } from '@slidev/client/logic/nav.ts'
 
 const interval = ref(1000)
 const { pause, resume, isActive } = useIntervalFn(() => {

@@ -7,8 +7,8 @@ Usage:
 <TocListNG :list="list"/>
 -->
 <script setup lang="ts">
-import type { TocItem } from '@slidev/client/logic/nav'
-import { router } from '@slidev/client/routes'
+import type { TocItem } from '@slidev/client/logic/nav.ts'
+import { router } from '@slidev/client/routes.ts'
 
 withDefaults(defineProps<{
   level: number

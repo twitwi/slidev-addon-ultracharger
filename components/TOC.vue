@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, inject, onMounted, onUnmounted, ref, watchEffect, provide, reactive } from 'vue'
-import { currentPage, go } from '@slidev/client/logic/nav'
+import { currentPage, go } from '@slidev/client/logic/nav.ts'
 
 
 async function hash(string) {

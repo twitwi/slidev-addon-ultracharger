@@ -9,8 +9,8 @@ Usage:
 -->
 <script setup lang='ts'>
 import { computed } from 'vue'
-import type { TocItem } from '@slidev/client/logic/nav'
-import { tree } from '@slidev/client/logic/nav'
+import type { TocItem } from '@slidev/client/logic/nav.ts'
+import { tree } from '@slidev/client/logic/nav.ts'
 
 const props = withDefaults(
   defineProps<{

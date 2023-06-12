@@ -1,6 +1,6 @@
 {
   "name": "slidev-addon-ultracharger",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Incubator for slidev addons, to be released or not",
   "scripts": {
     "dev": "slidev example.md",
@@ -21,7 +21,6 @@
     "parse-duration": "^1.0.2"
   },
   "devDependencies": {
-    "@slidev/cli": "^0.38.0",
-    "@slidev/theme-seriph": "^0.21.2"
+    "@slidev/cli": "^0.38.0"
   }
 }
