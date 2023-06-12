@@ -14,7 +14,10 @@ To watch it \
 You can use them in your presentation with two steps
 (see https://sli.dev/addons/use.html for a general documentation on using addons)
 
-- Step 1: directly depending to the github repository, e.g., `npm install github:twitwi/slidev-addon-ultracharger`
+- Step 1: `npm install @twitwi/slidev-addon-ultracharger`
+
+- Step 1: (alternative) directly depending to the github repository, e.g.,
+          `npm install github:twitwi/slidev-addon-ultracharger`
 
 - Step 2: adding the addon in your `package.json`
 ```json
