@@ -11,12 +11,21 @@ To watch it \
 
 ## Use these features
 
-You can use them in your presentation by
+You can use them in your presentation with two steps
 (see https://sli.dev/addons/use.html for a general documentation on using addons)
 
-- directly depending to the github repository, e.g., `npm install github:twitwi/slidev-addon-ultracharger`
+- Step 1: directly depending to the github repository, e.g., `npm install github:twitwi/slidev-addon-ultracharger`
 
-- adding the addon in your frontmatter 
+- Step 2: adding the addon in your `package.json`
+```json
+  "slidev": {
+    "addons": [
+      "slidev-addon-ultracharger"
+    ]
+  },
+```
+
+- Step 2: (alternative) adding the addon in your frontmatter 
 
 ``` yaml
 addons:
@@ -28,5 +37,6 @@ addons:
 ```
 github:twitwi/slidev-addon-ultracharger#v0.0.1-incubation (the version that used to be named twitwi/slidev-addon-incubation)
 github:twitwi/slidev-addon-ultracharger#vslidev0.38.8     (the version before the fix for slidev 0.39.0 layout issue)
+github:twitwi/slidev-addon-ultracharger#vslidev0.40.13    (the version before the 0.40.14 fix (vite update))
 ```
 
