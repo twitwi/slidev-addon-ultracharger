@@ -8,12 +8,20 @@
     "export": "slidev export example.md",
     "screenshot": "slidev export example.md --format png"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twitwi/slidev-addon-ultracharger.git"
+  },
   "keywords": [
     "slidev-addon",
     "slidev"
   ],
   "author": "R. Emonet",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twitwi/slidev-addon-ultracharger/issues"
+  },
+  "homepage": "https://github.com/twitwi/slidev-addon-ultracharger",
   "engines": {
     "slidev": ">=0.38.0"
   },
