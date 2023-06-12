@@ -16,14 +16,15 @@ You can use them in your presentation with two steps
 
 - Step 1: `npm install @twitwi/slidev-addon-ultracharger`
 
-- Step 1: (alternative) directly depending to the github repository, e.g.,
-          `npm install github:twitwi/slidev-addon-ultracharger`
+- Step 1: (alternative) directly depending to the github repository, e.g., \
+          `npm install github:twitwi/slidev-addon-ultracharger` \
+          in such case you need to replace `@twitwi/slidev-addon-ultracharger` by `slidev-addon-ultracharger` below.
 
 - Step 2: adding the addon in your `package.json`
 ```json
   "slidev": {
     "addons": [
-      "slidev-addon-ultracharger"
+      "@twitwi/slidev-addon-ultracharger"
     ]
   },
 ```
@@ -32,7 +33,7 @@ You can use them in your presentation with two steps
 
 ``` yaml
 addons:
-  - slidev-addon-ultracharger
+  - "@twitwi/slidev-addon-ultracharger"
 ```
 
 ### Some notable versions
