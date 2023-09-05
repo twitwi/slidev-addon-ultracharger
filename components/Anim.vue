@@ -9,7 +9,7 @@ import parse from 'parse-duration'
 
 const props = defineProps({
   spec: {
-    default: () => '@steps 1-',
+    default: () => '@step 1-',
   },
   at: {
     type: Number,
