@@ -77,6 +77,22 @@ const actions = {
       all(sel, e => e.classList.add('highlighted'))
     },
   },
+  inlineShow: {
+    doit({all}, sel) {
+      all(sel, e => e.style.opacity = 1)
+    },
+    undo({all}, sel) {
+      all(sel, e => e.style.opacity = 0)
+    },
+  },
+  inlineHide: {
+    doit({all}, sel) {
+      all(sel, e => e.style.opacity = 0)
+    },
+    undo({all}, sel) {
+      all(sel, e => e.style.opacity = 1)
+    },
+  },
   addClass: {
     doit({all}, cl, sel) {
       all(sel, e => e.classList.add(cl))
@@ -284,6 +300,10 @@ const parsePart = (context: any) => (p:string) => {
     p = p.substring(m.index + m[0].length)
     return prefix
   }
+  if (hasPrefix('++'))
+    return ['inlineShow', p]
+  if (hasPrefix('--'))
+    return ['inlineHide', p]
   if (hasPrefix('+'))
     return ['show', p]
   if (hasPrefix('-'))
