@@ -17,9 +17,7 @@ You can use them in your presentation with two steps
 - Step 1: `npm install @twitwi/slidev-addon-ultracharger`
 
 - Step 1: (alternative) directly depending to the github repository, e.g., \
-          `npm install github:twitwi/slidev-addon-ultracharger` \
-          in such case you need to replace `@twitwi/slidev-addon-ultracharger` by `slidev-addon-ultracharger` below.
-
+          `npm install github:twitwi/slidev-addon-ultracharger`
 - Step 2: adding the addon in your `package.json`
 ```json
   "slidev": {
@@ -36,11 +34,13 @@ addons:
   - "@twitwi/slidev-addon-ultracharger"
 ```
 
-### Some notable versions
+### Some notable versions and facts
 
 ```
 github:twitwi/slidev-addon-ultracharger#v0.0.1-incubation (the version that used to be named twitwi/slidev-addon-incubation)
 github:twitwi/slidev-addon-ultracharger#vslidev0.38.8     (the version before the fix for slidev 0.39.0 layout issue)
 github:twitwi/slidev-addon-ultracharger#vslidev0.40.13    (the version before the 0.40.14 fix (vite update))
 ```
+
+- version 1.1.2 (and earlier?) of this addon is broken with slidev 0.48.0 and above ⇒ recommended: upgrade the addon
 
