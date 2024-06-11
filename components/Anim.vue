@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { range, remove } from '@antfu/utils'
 import { computed, getCurrentInstance, inject, onMounted, onUnmounted, ref, watchEffect, provide } from 'vue'
-import { injectionClicks, injectionClicksElements, injectionClicksDisabled } from '@slidev/client/constants.ts'
+
+
+import { useSlideContext } from '@slidev/client'
+const { $clicksContext: clicks } = useSlideContext()
+
 import { parseRangeString } from '@slidev/parser'
 import parseDuration from 'parse-duration'
 import { animate } from "popmotion"
-import parse from 'parse-duration'
 import { pseudoQuerySelector } from '../anim-helper'
 
 const props = defineProps({
@@ -13,17 +16,14 @@ const props = defineProps({
     default: () => '@step 1-',
   },
   at: {
-    type: Number,
-    default: undefined,
+    type: [String, Number],
+    default: '+1',
   },
   dur: {
     type: String,
     default: '300ms',
   }
 })
-const clicks = inject(injectionClicks)
-const elements = inject(injectionClicksElements)
-const disabled = inject(injectionClicksDisabled)
 const applyStyle = (st, clear=false) => e => {
   for (const k in st) {
     if (clear || st[k] === undefined) {
@@ -273,9 +273,10 @@ const actions = {
     },
   }
 }
+
 function makeid(length = 5) {
   const result = []
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
   const charactersLength = characters.length
   for (let i = 0; i < length; i++)
     result.push(characters.charAt(Math.floor(Math.random() * charactersLength)))
@@ -521,22 +522,12 @@ const computeSteps = (el) => {
 const updateAll = ref(()=>{})
 onMounted(() => {
   const steps = computeSteps(el.value)
-  const prev = props.at == null ? elements?.value.length : props.at
-  const index = computed(() => {
-    if (disabled?.value) {
-      return steps.length
-    }
-    return Math.min(Math.max(0, (clicks?.value || 0) - (prev || 0)), steps.length)
-  })
-  if (steps.length >= 1 && !disabled?.value) {
-    const id = makeid()
-    const ids = range(steps.length).map(i => id + i)
-    if (elements?.value) {
-      elements.value.push(...ids)
-      onUnmounted(() => ids.forEach(i => remove(elements.value, i)), vm)
-    }
-  }
-  let _previousIndex = undefined
+  const id = makeid()
+  const clicksInfo = clicks.calculateSince(props.at, steps.length)
+  clicks.register(id, clicksInfo)
+  onUnmounted(() => clicks.unregister(id))
+  const index = computed(() => clicksInfo ? Math.max(0, clicks.current - clicksInfo.start + 1) : 999999)
+  let _previousIndex: number|undefined = undefined
   updateAll.value = () => {
     if (!el.value) {
       _previousIndex = undefined
@@ -571,7 +562,7 @@ onMounted(() => {
     }
     // forward on the passed clicks
     for (let i = 0; i < index.value; ++i) {
-      const delta = index.value - previousIndex
+      const delta = index.value - previousIndex!
       //console.log(__slidev__.nav.currentPage, previousIndex, index.value, delta, steps.length)
       const fast = i < index.value-1 || delta < 1 || delta > 1 || (previousIndex === undefined && index.value == steps.length - 1)
       const last = i == index.value-1

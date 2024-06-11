@@ -7,8 +7,11 @@
     }"><slot /></component>
 </template>
 <script lang="ts" setup>
-import { sharedState } from '@slidev/client/state/shared.ts'
-import { isPresenter } from '@slidev/client/logic/nav.ts'
+import { useNav } from '@slidev/client'
+const { isPresenter } = useNav()
+
+import { sharedState as _state } from '@slidev/client/state/shared.ts'
+const sharedState = _state as unknown as Record<"showComments", boolean>
 
 const props = defineProps({
     type: { default: "span"},

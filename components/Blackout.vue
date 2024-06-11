@@ -9,9 +9,12 @@
   >Blacked out</div>
 </template>
 <script lang="ts" setup>
-import { slideHeight } from '@slidev/client/env.ts'
-import { sharedState } from '@slidev/client/state/shared.ts'
-import { isPresenter } from '@slidev/client/logic/nav.ts'
+import { useNav, slideHeight } from '@slidev/client'
+const { isPresenter } = useNav()
+
+import { sharedState as _state } from '@slidev/client/state/shared.ts'
+const sharedState = _state as unknown as Record<"blackout", boolean>
+
 // avoid type checking...
 let slideHeightAsVariable = {}
 slideHeightAsVariable['--slide-height'] = slideHeight + 'px'

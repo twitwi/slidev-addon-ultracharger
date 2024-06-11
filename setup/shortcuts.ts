@@ -1,6 +1,10 @@
 import { defineShortcutsSetup, NavOperations } from '@slidev/types'
-import { sharedState } from "@slidev/client/state/shared.ts";
-import { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } from '@slidev/client/logic/nav.ts'
+import { useNav } from '@slidev/client'
+const { isPresenter, clicks, clicksTotal, currentPage, prevSlide, nextSlide, go } = useNav()
+
+import { sharedState as _state } from '@slidev/client/state/shared.ts'
+const sharedState = _state as unknown as Record<"blackout"|"showComments", boolean>
+
 export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => {
   return [
     ...baseShortcuts,
@@ -28,7 +32,7 @@ export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => 
       key: "b",
       fn: () => {
         if (isPresenter.value) {
-          (<any>sharedState).blackout = !((<any>sharedState).blackout ?? false);
+          sharedState.blackout = !(sharedState.blackout ?? false);
         }
       },
     },
@@ -37,7 +41,7 @@ export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => 
     {
       key: "v",
       fn: () => {
-        (<any>sharedState).showComments = !((<any>sharedState).showComments ?? false);
+        sharedState.showComments = !(sharedState.showComments ?? false);
       },
     },
 

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance } from 'vue'
-//import {} from '@slidev/client/constants.ts'
-import { currentPage } from '@slidev/client/logic/nav.ts'
 
 const props = defineProps({
     eid: {default: undefined},

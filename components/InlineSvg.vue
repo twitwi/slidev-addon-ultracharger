@@ -1,8 +1,6 @@
 <script lang="ts">
-import { h, ref, inject, nextTick } from "vue";
-
-// hard dependency on slidev for now, but can be cleaned-up
-import { injectionSlidevContext } from "@slidev/client/constants.ts";
+import { h, ref, inject, nextTick } from 'vue'
+import { useSlideContext } from '@slidev/client'
 
 let nextId = 1
 function generateId(/*oldId*/) {
@@ -27,7 +25,7 @@ export default {
       ref(() => {})
     );
 
-    const $slidev = inject(injectionSlidevContext)
+    const { $slidev } = useSlideContext()
     let configOpts = $slidev?.configs?.addonsConfig?.ultracharger?.inlineSvg ?? {}
 
     const rawSvg = ref("");
