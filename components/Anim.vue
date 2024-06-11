@@ -6,6 +6,7 @@ import { parseRangeString } from '@slidev/parser'
 import parseDuration from 'parse-duration'
 import { animate } from "popmotion"
 import parse from 'parse-duration'
+import { pseudoQuerySelector } from '../anim-helper'
 
 const props = defineProps({
   spec: {
@@ -544,9 +545,9 @@ onMounted(() => {
     const previousIndex = _previousIndex
     _previousIndex = index.value
     const helper = {
-      all: (sel, f) => el.value.querySelectorAll(sel).forEach(f), // path should also be looked only in the slide (or even the anim?) -> provide a qs() helper
-      querySelector: sel => el.value.querySelector(sel),
-      querySelectorAll: sel => el.value.querySelectorAll(sel),
+      all: (sel, f) => pseudoQuerySelector(true, el.value, sel).forEach(f), // path should also be looked only in the slide (or even the anim?) -> provide a qs() helper
+      querySelector: sel => pseudoQuerySelector(false, el.value, sel),
+      querySelectorAll: sel => pseudoQuerySelector(true, el.value, sel),
       el: el.value,
     }
     // allow action to (re)init/setup things on the elements

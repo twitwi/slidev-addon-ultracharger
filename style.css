@@ -15,20 +15,6 @@
 
 
 
-/* FEATURE Anim, necessary default style */
-:root {
-	--anim-show-duration: 400ms;
-	--anim-hide-duration: 100ms;
-	--anim-step-opacity: 0.15;
-}
-.anim-shown { opacity: 1; transition: all var(--anim-show-duration); }
-.anim-hidden { opacity: 0; transition: all var(--anim-hide-duration); }
-.anim-nowable, .anim-nowable ~ * { transition: all var(--anim-show-duration) ease-out; }
-.anim-notnow, .anim-now ~ * { opacity: var(--anim-step-opacity); transition-duration: 0ms !important; transition-timing-function: ease-out; }
-/* css is tricky (and imperfect) with nested lists... */
-
-
-
 /* FEATURE KATEX, example of latex default color */
 .katex { color: #006; }
 .dark .katex { color: #DEF; }
