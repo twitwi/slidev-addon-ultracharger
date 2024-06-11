@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/twitwi/slidev-addon-ultracharger",
   "engines": {
-    "slidev": ">=0.38.0"
+    "slidev": ">=0.38.0 <0.48.0"
   },
   "dependencies": {
     "parse-duration": "^1.0.2"
