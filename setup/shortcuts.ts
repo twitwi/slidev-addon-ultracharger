@@ -23,6 +23,7 @@ export default defineShortcutsSetup((nav: NavOperations, baseShortcuts: any) => 
       key: 'a',
       fn: async () => {
         await prevSlide();
+        await go(currentPage.value, clicksTotal.value);
       },
       autoRepeat: true,
     },
