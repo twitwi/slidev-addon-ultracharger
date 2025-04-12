@@ -3,7 +3,19 @@ import { defineConfig, UserConfig } from "vite";
 export default defineConfig({
   slidev: {
     vue: {
-      /* vue options */
+      template: {
+        transformAssetUrls: {
+          // defaults...
+          video: ["src", "poster"],
+          source: ["src"],
+          img: ["src"],
+          image: ["xlink:href", "href"],
+          use: ["xlink:href", "href"],
+          // custom ones, allow InlineSvg src="..." to be bundled at build time
+          InlineSvg: ["src"],
+          ["inline-svg"]: ['src'],
+        },
+      },
     },
     markdown: {
       /* markdown-it options */
