@@ -1,6 +1,6 @@
 {
   "name": "@twitwi/slidev-addon-ultracharger",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Incubator for slidev addons, to be released or not",
   "scripts": {
     "dev": "slidev example.md",
